@@ -30,6 +30,8 @@ function draw() {
 
 function resetCanvas() {
   background(255);
+  label.html("");
+  confidence.html("");
 }
 
 function imageReady() {
