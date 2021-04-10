@@ -78,6 +78,7 @@ function gotResult(error, results) {
     console.error(error);
   } else {
     console.log(results);
+    submitButton.hide();
     label.html("Label: " + results[0].label);
     confidence.html("Confidence: " + round(results[0].confidence, 2));
   }
