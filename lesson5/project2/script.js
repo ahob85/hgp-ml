@@ -1,37 +1,76 @@
 // Interface elements
-let c;
+let canvas;
+let buttonDiv;
+let uploadButton;
 let submitButton;
+let resetButton;
+let textDiv;
+let label;
+let confidence;
 
 let mobilenet;
 let img;
 
 function setup() {
-  c = createCanvas(640, 480);
-  c.parent("#canvas");
-  submitButton.select("#submit-button");
-  noStroke();
-  fill(255, 0, 0);
+  canvas = createCanvas(270, 270);
+  buttonDiv = createDiv();
+  uploadButton = createFileInput(handleFile);
+  uploadButton.parent(buttonDiv);
+  uploadButton.hide();
+  submitButton = createButton("SUBMIT");
+  submitButton.parent(buttonDiv);
+  submitButton.mousePressed(predictImage);
+  submitButton.hide();
+  resetButton = createButton("RESET");
+  resetButton.parent(buttonDiv);
+  resetButton.mousePressed(resetCanvas);
+  resetButton.hide();
+  textDiv = createDiv();
+  label = createP();
+  label.parent(textDiv);
+  confidence = createP();
+  confidence.parent(textDiv);
+  text("Model loading, please wait...", 0, height / 2);
   mobilenet = ml5.imageClassifier("MobileNet", modelReady);
 }
 
 function draw() {
-  if(mouseIsPressed) {
-    circle(mouseX, mouseY, 10);
+
+}
+
+function resetCanvas() {
+  background(255);
+  label.html("");
+  confidence.html("");
+  submitButton.hide();
+  resetButton.hide();
+  uploadButton.show();
+}
+
+function modelReady() {
+  console.log("Model is ready!");
+  background(255);
+  uploadButton.show();
+}
+
+function handleFile(file) {
+  if(file.type === "image") {
+    img = createImg(file.data, imageReady);
+    img.hide();
+  } else {
+    img = null;
   }
 }
 
 function imageReady() {
   image(img, 0, 0, width, height);
-}
-
-function modelReady() {
-  console.log("Model is ready!");
-  submitButton.mousePressed(predictImage);
+  submitButton.show();
+  resetButton.show();
+  uploadButton.hide()
 }
 
 function predictImage() {
-  img = saveCanvas(c);
-  mobilenet.classify(img, gotResult);
+  mobilenet.classify(canvas, gotResult);
 }
 
 function gotResult(error, results) {
@@ -39,9 +78,7 @@ function gotResult(error, results) {
     console.error(error);
   } else {
     console.log(results);
-    let label = results[0].label;
-    let conf = round(results[0].confidence, 2);
-    createP(label);
-    createP(conf);
+    label.html("Label: " + results[0].label);
+    confidence.html("Confidence: " + round(results[0].confidence, 2));
   }
 }

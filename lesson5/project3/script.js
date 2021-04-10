@@ -5,7 +5,7 @@ let resetButton;
 let label;
 let confidence;
 
-let mobilenet;
+let doodlenet;
 let img;
 
 function setup() {
@@ -19,7 +19,7 @@ function setup() {
   strokeWeight(15);
   textSize(16);
   text("Model loading, please wait...", 0, height / 2);
-  mobilenet = ml5.imageClassifier("DoodleNet", modelReady);
+  doodlenet = ml5.imageClassifier("DoodleNet", modelReady);
 }
 
 function draw() {
@@ -34,10 +34,6 @@ function resetCanvas() {
   confidence.html("");
 }
 
-function imageReady() {
-  image(img, 0, 0, width, height);
-}
-
 function modelReady() {
   console.log("Model is ready!");
   background(255);
@@ -45,7 +41,7 @@ function modelReady() {
 }
 
 function predictImage() {
-  mobilenet.classify(canvas, gotResult);
+  doodlenet.classify(canvas, gotResult);
 }
 
 function gotResult(error, results) {
