@@ -20,7 +20,7 @@ function setup() {
   label.parent(textDiv);
   confidence = createP();
   confidence.parent(textDiv);
-  mobilenet.classify(img, gotResult);
+  mobilenet.classify(canvas, gotResult);
 }
 
 function draw() {

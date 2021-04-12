@@ -60,7 +60,7 @@ function gotResult(error, results) {
   if(error) {
     console.error(error);
   } else {
-    console.log(results);
+    //console.log(results);
     label.html("Label: " + results[0].label);
     confidence.html("Confidence: " + round(results[0].confidence, 2));
   }
