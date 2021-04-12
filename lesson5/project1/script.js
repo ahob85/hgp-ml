@@ -7,29 +7,24 @@ let confidence;
 let mobilenet;
 let img;
 
+function preload() {
+  img = loadImage("images/guinea-pig.jpg");
+  mobilenet = ml5.imageClassifier("MobileNet");
+}
+
 function setup() {
   canvas = createCanvas(640, 480);
-  img = createImg("images/guinea-pig.jpg", imageReady);
-  img.hide();
+  image(img, 0, 0, width, height);
   textDiv = createDiv();
   label = createP();
   label.parent(textDiv);
   confidence = createP();
   confidence.parent(textDiv);
-  mobilenet = ml5.imageClassifier("MobileNet", modelReady);
+  mobilenet.classify(img, gotResult);
 }
 
 function draw() {
 
-}
-
-function imageReady() {
-  image(img, 0, 0, width, height);
-}
-
-function modelReady() {
-  console.log("Model is ready!");
-  mobilenet.classify(img, gotResult);
 }
 
 function gotResult(error, results) {

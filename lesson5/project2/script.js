@@ -11,6 +11,10 @@ let confidence;
 let mobilenet;
 let img;
 
+function preload() {
+  mobilenet = ml5.imageClassifier("MobileNet", modelReady);
+}
+
 function setup() {
   canvas = createCanvas(640, 480);
   buttonDiv = createDiv();
@@ -30,12 +34,17 @@ function setup() {
   label.parent(textDiv);
   confidence = createP();
   confidence.parent(textDiv);
-  text("Model loading, please wait...", 0, height / 2);
-  mobilenet = ml5.imageClassifier("MobileNet", modelReady);
+  textSize(32);
+  text("Model loading, please wait...", width / 6, height / 2);
 }
 
 function draw() {
 
+}
+
+function modelReady() {
+  background(255);
+  uploadButton.show();
 }
 
 function resetCanvas() {
@@ -47,22 +56,17 @@ function resetCanvas() {
   uploadButton.show();
 }
 
-function modelReady() {
-  console.log("Model is ready!");
-  background(255);
-  uploadButton.show();
-}
-
 function handleFile(file) {
   if(file.type === "image") {
-    img = createImg(file.data, imageReady);
-    img.hide();
+    text("Loading image, please wait", width / 6, height / 2);
+    img = loadImage(file.data, imageReady);
   } else {
     img = null;
   }
 }
 
 function imageReady() {
+  background(255);
   image(img, 0, 0, width, height);
   submitButton.show();
   resetButton.show();
@@ -77,7 +81,7 @@ function gotResult(error, results) {
   if(error) {
     console.error(error);
   } else {
-    console.log(results);
+    //console.log(results);
     submitButton.hide();
     label.html("Label: " + results[0].label);
     confidence.html("Confidence: " + round(results[0].confidence, 2));

@@ -10,6 +10,10 @@ let confidence;
 let doodlenet;
 let img;
 
+function preload() {
+  doodlenet = ml5.imageClassifier("DoodleNet", modelReady);
+}
+
 function setup() {
   canvas = createCanvas(640, 480);
   buttonDiv = createDiv();
@@ -26,9 +30,8 @@ function setup() {
   confidence = createP();
   confidence.parent(textDiv);
   strokeWeight(25);
-  textSize(16);
-  text("Model loading, please wait...", 0, height / 2);
-  doodlenet = ml5.imageClassifier("DoodleNet", modelReady);
+  textSize(32);
+  text("Model loading, please wait...", width / 6, height / 2);
 }
 
 function draw() {
