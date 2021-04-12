@@ -10,11 +10,21 @@ body {
   text-align: center;
 }
 
-#canvas-div {
-  margin: auto;
-  width: 280px;
-  height: 280px;
+canvas {
+  margin: 0 auto;
+  width: 650px;
+  height: 490px;
   border: 2px solid black;
+}
+
+div {
+  margin: 0 auto;
+  text-align: center;
+}
+
+button, input {
+  margin: 0 auto;
+  text-align: center;
 }
 
 /* Create your styles below */

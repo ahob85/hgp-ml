@@ -12,7 +12,7 @@ let mobilenet;
 let img;
 
 function setup() {
-  canvas = createCanvas(270, 270);
+  canvas = createCanvas(640, 480);
   buttonDiv = createDiv();
   uploadButton = createFileInput(handleFile);
   uploadButton.parent(buttonDiv);

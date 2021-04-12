@@ -1,7 +1,9 @@
 // Interface elements
 let canvas;
+let buttonDiv;
 let submitButton;
 let resetButton;
+let textDiv;
 let label;
 let confidence;
 
@@ -9,14 +11,21 @@ let doodlenet;
 let img;
 
 function setup() {
-  canvas = createCanvas(270, 270);
-  canvas.parent("#canvas-div");
-  submitButton = select("#submit-button");
-  resetButton = select("#reset-button");
+  canvas = createCanvas(640, 480);
+  buttonDiv = createDiv();
+  submitButton = createButton("SUBMIT");
+  submitButton.parent(buttonDiv);
+  submitButton.mousePressed(predictImage);
+  resetButton = createButton("RESET");
+  resetButton.parent(buttonDiv);
   resetButton.mousePressed(resetCanvas);
-  label = select("#label-div");
-  confidence = select("#confidence-div");
-  strokeWeight(15);
+  buttonDiv.hide();
+  textDiv = createDiv();
+  label = createP();
+  label.parent(textDiv);
+  confidence = createP();
+  confidence.parent(textDiv);
+  strokeWeight(25);
   textSize(16);
   text("Model loading, please wait...", 0, height / 2);
   doodlenet = ml5.imageClassifier("DoodleNet", modelReady);
@@ -37,7 +46,7 @@ function resetCanvas() {
 function modelReady() {
   console.log("Model is ready!");
   background(255);
-  submitButton.mousePressed(predictImage);
+  buttonDiv.show();
 }
 
 function predictImage() {
