@@ -5,7 +5,7 @@ let img;
 let detector;
 
 function preload() {
-  img = loadImage('/hgp-ml/images/cats-dogs.jpg');
+  img = loadImage('../../images/cats-dogs.jpg');
   detector = ml5.objectDetector("cocossd");
 }
 
