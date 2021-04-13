@@ -18,6 +18,10 @@ function preload() {
   classifier = featureExtractor.classification(video);
 }
 
+function videoLoaded() {
+  console.log("Video loaded!");
+}
+
 function setup() {
   canvas = createCanvas(640, 480);
   video.hide();
@@ -32,12 +36,12 @@ function setup() {
   ps3Button = createButton("PS3 Controller");
   ps3Button.parent(buttonDiv);
   ps3Button.mousePressed(function () {
-    classifier.addImage("ps3 controller");
+    classifier.addImage(canvas, "ps3 controller");
   });
   ps4Button = createButton("PS4 Controller");
   ps4Button.parent(buttonDiv);
   ps4Button.mousePressed(function () {
-    classifier.addImage("ps4 controller");
+    classifier.addImage(canvas, "ps4 controller");
   });
   train = createButton("Train Model");
   train.parent(buttonDiv);
