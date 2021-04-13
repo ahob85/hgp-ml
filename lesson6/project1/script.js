@@ -22,7 +22,7 @@ function setup() {
   video.hide();
   textSize(32);
   text("Model loading, please wait...", width / 6, height / 2);
-  mobilenet.classify(gotResult);
+  mobilenet.classify(gotResults);
 }
 
 function draw() {
@@ -32,16 +32,16 @@ function draw() {
 function modelReady() {
   console.log("Model is ready!");
   background(255);
-  mobilenet.classify(gotResult);
+  //mobilenet.classify(gotResults);
 }
 
-function gotResult(error, results) {
+function gotResults(error, results) {
   if(error) {
     console.error(error);
   } else {
     //console.log(results);
     label.html("Label: " + results[0].label);
     confidence.html("Confidence: " + round(results[0].confidence, 2));
-    mobilenet.classify(gotResult);
+    mobilenet.classify(gotResults);
   }
 }

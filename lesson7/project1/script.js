@@ -4,8 +4,8 @@ let textDiv;
 let label;
 let confidence;
 let buttonDiv;
-let ps3Button;
-let ps4Button;
+let happyButton;
+let sadButton;
 let trainButton;
 
 let featureExtractor;
@@ -16,10 +16,6 @@ function preload() {
   video = createCapture(VIDEO);
   featureExtractor = ml5.featureExtractor("MobileNet");
   classifier = featureExtractor.classification(video);
-}
-
-function videoLoaded() {
-  console.log("Video loaded!");
 }
 
 function setup() {
@@ -33,15 +29,15 @@ function setup() {
   confidence = createP();
   confidence.parent(textDiv);
   buttonDiv = createDiv();
-  ps3Button = createButton("PS3 Controller");
-  ps3Button.parent(buttonDiv);
-  ps3Button.mousePressed(function () {
-    classifier.addImage(canvas, "ps3 controller");
+  happyButton = createButton("Happy");
+  happyButton.parent(buttonDiv);
+  happyButton.mousePressed(function () {
+    classifier.addImage(canvas, "Happy");
   });
-  ps4Button = createButton("PS4 Controller");
-  ps4Button.parent(buttonDiv);
-  ps4Button.mousePressed(function () {
-    classifier.addImage(canvas, "ps4 controller");
+  sadButton = createButton("Sad");
+  sadButton.parent(buttonDiv);
+  sadButton.mousePressed(function () {
+    classifier.addImage(canvas, "Sad");
   });
   train = createButton("Train Model");
   train.parent(buttonDiv);
@@ -58,16 +54,21 @@ function draw() {
 }
 
 function whileTraining(loss) {
-  console.log(loss);
+  if(loss === null) {
+    console.log("Training complete!");
+    classifier.classify(canvas, gotResults);
+  } else {
+    console.log(loss);
+  }
 }
 
-function gotResult(error, results) {
+function gotResults(error, results) {
   if(error) {
     console.error(error);
   } else {
     //console.log(results);
     label.html("Label: " + results[0].label);
     confidence.html("Confidence: " + round(results[0].confidence, 2));
-    mobilenet.classify(gotResult);
+    classifier.classify(canvas, gotResults);
   }
 }
