@@ -8,7 +8,7 @@ let mobilenet;
 let img;
 
 function preload() {
-  img = loadImage("./images/guinea-pig.jpg");
+  img = loadImage("/images/guinea-pig.jpg");
   mobilenet = ml5.imageClassifier("MobileNet");
 }
 
