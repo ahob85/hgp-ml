@@ -19,7 +19,7 @@ function setup() {
   label.parent(textDiv);
   confidence = createP();
   confidence.parent(textDiv);
-  //video.hide();
+  video.hide();
   textSize(32);
   text("Model loading, please wait...", width / 6, height / 2);
   mobilenet.classify(gotResult);
