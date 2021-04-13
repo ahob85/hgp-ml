@@ -39,14 +39,11 @@ function setup() {
   sadButton.mousePressed(function () {
     classifier.addImage(canvas, "Sad");
   });
-  train = createButton("Train Model");
-  train.parent(buttonDiv);
-  train.mousePressed(function () {
+  trainButton = createButton("Train Model");
+  trainButton.parent(buttonDiv);
+  trainButton.mousePressed(function () {
     classifier.train(whileTraining);
   });
-  textSize(32);
-  text("Model loading, please wait...", width / 6, height / 2);
-  //mobilenet.classify(gotResult);
 }
 
 function draw() {
