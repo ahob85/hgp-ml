@@ -12,15 +12,12 @@ let featureExtractor;
 let classifier;
 let video;
 
-function preload() {
-  video = createCapture(VIDEO);
-  featureExtractor = ml5.featureExtractor("MobileNet");
-  classifier = featureExtractor.classification(video);
-}
-
 function setup() {
   canvas = createCanvas(640, 480);
+  video = createCapture(VIDEO);
   video.hide();
+  featureExtractor = ml5.featureExtractor("MobileNet");
+  classifier = featureExtractor.classification(video);
 
   // interface building
   textDiv = createDiv();

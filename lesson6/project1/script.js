@@ -7,19 +7,16 @@ let confidence;
 let mobilenet;
 let video;
 
-function preload() {
-  video = createCapture(VIDEO);
-  mobilenet = ml5.imageClassifier("MobileNet", video);
-}
-
 function setup() {
   canvas = createCanvas(640, 480);
+  video = createCapture(VIDEO);
+  video.hide();
+  mobilenet = ml5.imageClassifier("MobileNet", video);
   textDiv = createDiv();
   label = createP();
   label.parent(textDiv);
   confidence = createP();
   confidence.parent(textDiv);
-  video.hide();
   textSize(32);
   text("Model loading, please wait...", width / 6, height / 2);
   mobilenet.classify(gotResults);

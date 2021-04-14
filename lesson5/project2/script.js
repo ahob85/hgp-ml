@@ -11,12 +11,9 @@ let confidence;
 let mobilenet;
 let img;
 
-function preload() {
-  mobilenet = ml5.imageClassifier("MobileNet", modelReady);
-}
-
 function setup() {
   canvas = createCanvas(640, 480);
+  mobilenet = ml5.imageClassifier("MobileNet", modelReady);
   buttonDiv = createDiv();
   uploadButton = createFileInput(handleFile);
   uploadButton.parent(buttonDiv);

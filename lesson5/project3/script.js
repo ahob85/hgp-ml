@@ -10,12 +10,9 @@ let confidence;
 let doodlenet;
 let img;
 
-function preload() {
-  doodlenet = ml5.imageClassifier("DoodleNet", modelReady);
-}
-
 function setup() {
   canvas = createCanvas(640, 480);
+  doodlenet = ml5.imageClassifier("DoodleNet", modelReady);
   buttonDiv = createDiv();
   submitButton = createButton("SUBMIT");
   submitButton.parent(buttonDiv);

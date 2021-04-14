@@ -9,14 +9,15 @@ let knn;
 let ready = false;
 
 function preload() {
-  video = createCapture(VIDEO);
-  featureExtractor = ml5.featureExtractor("MobileNet", modelReady);
-  knn = ml5.KNNClassifier();
+
 }
 
 function setup() {
   canvas = createCanvas(640, 480);
+  video = createCapture(VIDEO);
   video.hide();
+  featureExtractor = ml5.featureExtractor("MobileNet", modelReady);
+  knn = ml5.KNNClassifier();
   textDiv = createDiv();
   label = createP();
   label.parent(textDiv);
@@ -46,6 +47,8 @@ function myClassify() {
 
 function keyPressed() {
   const features = featureExtractor.infer(video);
+  // want to see the features? have a look!
+  // console.log(features.dataSync());
   if(key == "ArrowLeft") {
     knn.addExample(features, "left");
     console.log("you pressed left");
@@ -59,7 +62,6 @@ function keyPressed() {
     knn.addExample(features, "down");
     console.log("you pressed down");
   }
-  //console.log(logits.dataSync());
 }
 
 function modelReady() {

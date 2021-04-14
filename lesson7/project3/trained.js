@@ -8,25 +8,12 @@ let featureExtractor;
 let classifier;
 let video;
 
-function preload() {
-  video = createCapture(VIDEO);
-  featureExtractor = ml5.featureExtractor("MobileNet", modelReady);
-  classifier = featureExtractor.classification(video);
-}
-
-function modelReady() {
-  console.log("Model Ready!");
-  classifier.load("./model.json", customModelReady);
-}
-
-function customModelReady() {
-  console.log("Custom Model Ready!");
-  classifier.classify(canvas, gotResults);
-}
-
 function setup() {
   canvas = createCanvas(640, 480);
+  video = createCapture(VIDEO);
   video.hide();
+  featureExtractor = ml5.featureExtractor("MobileNet", modelReady);
+  classifier = featureExtractor.classification(video);
 
   // interface building
   textDiv = createDiv();
@@ -38,6 +25,16 @@ function setup() {
 
 function draw() {
   image(video, 0, 0);
+}
+
+function modelReady() {
+  console.log("Model Ready!");
+  classifier.load("./model.json", customModelReady);
+}
+
+function customModelReady() {
+  console.log("Custom Model Ready!");
+  classifier.classify(canvas, gotResults);
 }
 
 function whileTraining(loss) {

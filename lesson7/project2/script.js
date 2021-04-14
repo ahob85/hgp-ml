@@ -16,15 +16,12 @@ let featureExtractor;
 let predictor;
 let video;
 
-function preload() {
-  video = createCapture(VIDEO);
-  featureExtractor = ml5.featureExtractor("MobileNet");
-  predictor = featureExtractor.regression(video);
-}
-
 function setup() {
   canvas = createCanvas(640, 480);
+  video = createCapture(VIDEO);
   video.hide();
+  featureExtractor = ml5.featureExtractor("MobileNet");
+  predictor = featureExtractor.regression(video);
 
   // interface building
   textDiv = createDiv();

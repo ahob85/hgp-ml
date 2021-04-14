@@ -5,13 +5,15 @@ let img;
 let detector;
 
 function preload() {
-  img = loadImage('../../images/cats-dogs.jpg');
-  detector = ml5.objectDetector("cocossd");
+
 }
 
 function setup() {
   canvas = createCanvas(640, 480);
-  image(img, 0, 0, width, height);
+  img = loadImage('../../images/cats-dogs.jpg', function() {
+    image(img, 0, 0, width, height);
+  });
+  detector = ml5.objectDetector("cocossd");
   detector.detect(canvas, gotResults);
 }
 

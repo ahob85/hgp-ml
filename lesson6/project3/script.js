@@ -5,15 +5,11 @@ let detector;
 let video;
 let detections = [];
 
-function preload() {
-  video = createCapture(VIDEO);
-  detector = ml5.objectDetector("cocossd");
-}
-
 function setup() {
   canvas = createCanvas(640, 480);
-  video.size(640, 480);
+  video = createCapture(VIDEO);
   video.hide();
+  detector = ml5.objectDetector("cocossd");
   detector.detect(video, gotResults);
 }
 
