@@ -8,10 +8,6 @@ let featureExtractor;
 let knn;
 let ready = false;
 
-function preload() {
-
-}
-
 function setup() {
   canvas = createCanvas(640, 480);
   video = createCapture(VIDEO);

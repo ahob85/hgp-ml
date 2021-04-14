@@ -9,10 +9,6 @@ let knn;
 let x, y;
 let speed = 5;
 
-function preload() {
-
-}
-
 function setup() {
   canvas = createCanvas(640, 480);
   video = createCapture(VIDEO);
@@ -93,9 +89,11 @@ function modelReady() {
 // Don't touch this, it "fixes" a bug in ml5.js
 function getLabel(result) {
   const entries = Object.entries(result.confidencesByLabel);
+  let greatestConfidence = entries[0];
   for(let i = 0; i < entries.length; i++) {
-    if(entries[i][1] > 0) {
-      return entries[i][0];
+    if(entries[i][1] > greatestConfidence[1]) {
+      greatestConfidence = entries[i];
     }
   }
+  return greatestConfidence[0];
 }
