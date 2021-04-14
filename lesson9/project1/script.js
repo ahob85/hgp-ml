@@ -2,8 +2,6 @@
 let canvas;
 let textDiv;
 let label;
-let confidence;
-let buttonDiv;
 
 let video;
 let featureExtractor;
