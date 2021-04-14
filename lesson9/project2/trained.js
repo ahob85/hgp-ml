@@ -56,6 +56,31 @@ function myClassify() {
   });
 }
 
+function keyPressed() {
+  const features = featureExtractor.infer(video);
+  // want to see the features? have a look!
+  // console.log(features.dataSync());
+  if(key == "ArrowLeft") {
+    knn.addExample(features, "left");
+    console.log("you pressed left");
+  } else if(key == "ArrowRight"){
+    knn.addExample(features, "right");
+    console.log("you pressed right");
+  } else if(key == "ArrowUp") {
+    knn.addExample(features, "up");
+    console.log("you pressed up");
+  } else if(key == "ArrowDown") {
+    knn.addExample(features, "down");
+    console.log("you pressed down");
+  } else if(key == " ") {
+    knn.addExample(features, "stay");
+    console.log("you pressed space");
+  } else if(key == "s") {
+    knn.save();
+    console.log("model saved!");
+  }
+}
+
 function modelReady() {
   console.log("MobileNet Ready!");
   knn = ml5.KNNClassifier();

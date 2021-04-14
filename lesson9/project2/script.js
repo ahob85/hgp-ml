@@ -61,6 +61,9 @@ function keyPressed() {
   } else if(key == "ArrowDown") {
     knn.addExample(features, "down");
     console.log("you pressed down");
+  } else if(key == " ") {
+    knn.addExample(features, "stay");
+    console.log("you pressed space");
   } else if(key == "s") {
     knn.save();
     console.log("model saved!");
