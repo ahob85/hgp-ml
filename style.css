@@ -23,6 +23,7 @@ div {
 }
 
 button, input {
+  display: inline;
   margin: 0 auto;
   text-align: center;
 }
