@@ -1,4 +1,5 @@
 // UI Variables
+let canvasDiv;
 let canvas;
 let textDiv;
 let gameText;
@@ -58,7 +59,7 @@ function setup() {
   playAgainButton = createButton("Play Again");
   playAgainButton.parent(buttonDiv);
   playAgainButton.style("display", "none");
-  // Add event listeners to HTML elements
+  // Add events to buttons
   corvetteButton.mousePressed(function() {
     createShip("#ff0000", 60, 10, 20);
     gameRunning = true;
@@ -85,7 +86,9 @@ function setup() {
   gameRunning = false;
   resetVariables();
   // Canvas appears under the UI
-  canvas = createCanvas(500, 400);
+  canvasDiv = createDiv();
+  canvas = createCanvas(640, 480);
+  canvas.parent(canvasDiv);
   background(20, 30, 40);
   canvas.style("display", "none");
 }

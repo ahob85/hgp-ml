@@ -10,22 +10,21 @@ body {
   text-align: center;
 }
 
+div, div * {
+  margin: 10 auto;
+  text-align: inherit;
+}
+
 canvas {
   margin: 0 auto;
-  width: 650px;
-  height: 490px;
   border: 2px solid black;
 }
 
-div {
-  margin: 0 auto;
-  text-align: center;
-}
-
+/*
 button, input {
-  display: inline;
   margin: 0 auto;
   text-align: center;
 }
+*/
 
 /* Create your styles below */
