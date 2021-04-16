@@ -1,4 +1,5 @@
 // Interface elements
+let canvasDiv;
 let canvas;
 
 let detector;
@@ -6,9 +7,11 @@ let video;
 let detections = [];
 
 function setup() {
+  canvasDiv = createDiv();
   canvas = createCanvas(640, 480);
+  canvas.parent(canvasDiv);
   video = createCapture(VIDEO);
-  video.hide();
+  video.style("display", "none");
   detector = ml5.objectDetector("cocossd");
   detector.detect(video, gotResults);
 }

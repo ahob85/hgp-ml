@@ -1,4 +1,5 @@
 // Interface elements
+let canvasDiv;
 let canvas;
 let textDiv;
 let label;
@@ -10,9 +11,11 @@ let x, y;
 let speed = 5;
 
 function setup() {
+  canvasDiv = createDiv();
   canvas = createCanvas(640, 480);
+  canvas.parent(canvasDiv);
   video = createCapture(VIDEO);
-  video.hide();
+  video.style("display", "none");
   featureExtractor = ml5.featureExtractor("MobileNet", modelReady);
   textDiv = createDiv();
   label = createP();

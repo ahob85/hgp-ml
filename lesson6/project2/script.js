@@ -1,4 +1,5 @@
 // Interface elements
+let canvasDiv;
 let canvas;
 let img;
 
@@ -9,7 +10,9 @@ function preload() {
 }
 
 function setup() {
+  canvasDiv = createDiv();
   canvas = createCanvas(640, 480);
+  canvas.parent(canvasDiv);
   img = loadImage('../../images/cats-dogs.jpg', function() {
     image(img, 0, 0, width, height);
   });

@@ -38,6 +38,12 @@ let alienBulletDiameter;
 let alienBulletX;
 let alienBulletY;
 
+// ML Variables
+let video;
+let featureExtractor;
+let knn;
+let labelString;
+
 /*
  * setup()
  * This function is called once. Sets up the canvas, access HTML elements with
@@ -45,10 +51,18 @@ let alienBulletY;
  * variables.
  */
 function setup() {
+  // ML setup
+  video = createCapture(VIDEO);
+  video.style("display", "none");
+  featureExtractor = ml5.featureExtractor("MobileNet", modelReady);
   // Build UI
   textDiv = createDiv();
-  gameText = createP("Select Ship");
+  gameText = createP("Model loading, please wait...");
   gameText.parent(textDiv);
+}
+
+function initializeGame() {
+  gameText.html("Select Ship");
   buttonDiv = createDiv();
   corvetteButton = createButton("Corvette");
   corvetteButton.parent(buttonDiv);
@@ -91,6 +105,28 @@ function setup() {
   canvas.parent(canvasDiv);
   background(20, 30, 40);
   canvas.style("display", "none");
+}
+
+function modelReady() {
+  console.log("MobileNet Ready!");
+  knn = ml5.KNNClassifier();
+  knn.load("myKNN.json", function() {
+    console.log("k-NN model ready!");
+    initializeGame();
+    myClassify();
+  });
+}
+
+function myClassify() {
+  const features = featureExtractor.infer(video);
+  knn.classify(features, function (error, result) {
+    if(error) {
+      console.error(error);
+    } else {
+      labelString = getLabel(result);
+      myClassify();
+    }
+  });
 }
 
 function createShip(sColor, sDiameter, sSpeed, bDiameter) {
@@ -179,11 +215,14 @@ function draw() {
  * x value by checking if the player is holding down the left or right keys.
  */
 function drawShip() {
-  if(keyIsDown(LEFT_ARROW) && shipX > shipDiameter / 2) {
+  if(labelString.includes("left") && shipX > shipDiameter / 2) {
     shipX -= shipSpeed;
-  }
-  else if(keyIsDown(RIGHT_ARROW) && shipX < width - shipDiameter / 2) {
+  } else if(labelString.includes("right") && shipX < width - shipDiameter / 2) {
     shipX += shipSpeed;
+  } else if(labelString.includes("fire") && !shipShooting && gameRunning) {
+    bulletY = shipY - shipDiameter / 2;
+    bulletX = shipX;
+    shipShooting = true;
   }
   fill(shipColor);
   ellipse(shipX, shipY, shipDiameter, shipDiameter);
@@ -311,4 +350,16 @@ function checkCollision(aX, aY, aD, bX, bY, bD) {
   else {
     return false;
   }
+}
+
+// Don't touch this, it "fixes" a bug in ml5.js
+function getLabel(result) {
+  const entries = Object.entries(result.confidencesByLabel);
+  let greatestConfidence = entries[0];
+  for(let i = 0; i < entries.length; i++) {
+    if(entries[i][1] > greatestConfidence[1]) {
+      greatestConfidence = entries[i];
+    }
+  }
+  return greatestConfidence[0];
 }

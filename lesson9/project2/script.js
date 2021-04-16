@@ -1,4 +1,5 @@
 // Interface elements
+let canvasDiv;
 let canvas;
 let textDiv;
 let label;
@@ -9,9 +10,11 @@ let knn;
 let ready = false;
 
 function setup() {
+  canvasDiv = createDiv();
   canvas = createCanvas(640, 480);
+  canvas.parent(canvasDiv);
   video = createCapture(VIDEO);
-  video.hide();
+  video.style("display", "none");
   featureExtractor = ml5.featureExtractor("MobileNet", modelReady);
   knn = ml5.KNNClassifier();
   textDiv = createDiv();
@@ -51,14 +54,8 @@ function keyPressed() {
   } else if(key == "ArrowRight"){
     knn.addExample(features, "right");
     console.log("you pressed right");
-  } else if(key == "ArrowUp") {
-    knn.addExample(features, "up");
-    console.log("you pressed up");
-  } else if(key == "ArrowDown") {
-    knn.addExample(features, "down");
-    console.log("you pressed down");
   } else if(key == " ") {
-    knn.addExample(features, "stay");
+    knn.addExample(features, "fire");
     console.log("you pressed space");
   } else if(key == "s") {
     knn.save();

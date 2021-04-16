@@ -1,4 +1,5 @@
 // Interface elements
+let canvasDiv;
 let canvas;
 let textDiv;
 let label;
@@ -8,7 +9,9 @@ let mobilenet;
 let img;
 
 function setup() {
+  canvasDiv = createDiv();
   canvas = createCanvas(640, 480);
+  canvas.parent(canvasDiv);
   img = loadImage("../../images/guinea-pig.jpg", function() {
     image(img, 0, 0, width, height);
   });

@@ -1,4 +1,5 @@
 // Interface elements
+let canvasDiv;
 let canvas;
 let textDiv;
 let label;
@@ -14,9 +15,11 @@ let classifier;
 let video;
 
 function setup() {
+  canvasDiv = createDiv();
   canvas = createCanvas(640, 480);
+  canvas.parent(canvasDiv);
   video = createCapture(VIDEO);
-  video.hide();
+  video.style("display", "none");
   featureExtractor = ml5.featureExtractor("MobileNet");
   classifier = featureExtractor.classification(video);
 

@@ -1,4 +1,5 @@
 // Interface elements
+let canvasDiv;
 let canvas;
 let buttonDiv;
 let uploadButton;
@@ -12,20 +13,22 @@ let mobilenet;
 let img;
 
 function setup() {
+  canvasDiv = createDiv();
   canvas = createCanvas(640, 480);
+  canvas.parent(canvasDiv);
   mobilenet = ml5.imageClassifier("MobileNet", modelReady);
   buttonDiv = createDiv();
   uploadButton = createFileInput(handleFile);
   uploadButton.parent(buttonDiv);
-  uploadButton.hide();
+  uploadButton.style("display", "none");
   submitButton = createButton("SUBMIT");
   submitButton.parent(buttonDiv);
   submitButton.mousePressed(predictImage);
-  submitButton.hide();
+  submitButton.style("display", "none");
   resetButton = createButton("RESET");
   resetButton.parent(buttonDiv);
   resetButton.mousePressed(resetCanvas);
-  resetButton.hide();
+  resetButton.style("display", "none");
   textDiv = createDiv();
   label = createP();
   label.parent(textDiv);
@@ -41,16 +44,16 @@ function draw() {
 
 function modelReady() {
   background(255);
-  uploadButton.show();
+  uploadButton.style("display", "inline");
 }
 
 function resetCanvas() {
   background(255);
   label.html("");
   confidence.html("");
-  submitButton.hide();
-  resetButton.hide();
-  uploadButton.show();
+  submitButton.style("display", "none");
+  resetButton.style("display", "none");
+  uploadButton.style("display", "inline");
 }
 
 function handleFile(file) {
@@ -65,9 +68,9 @@ function handleFile(file) {
 function imageReady() {
   background(255);
   image(img, 0, 0, width, height);
-  submitButton.show();
-  resetButton.show();
-  uploadButton.hide()
+  submitButton.style("display", "inline");
+  resetButton.style("display", "inline");
+  uploadButton.style("display", "none");
 }
 
 function predictImage() {
@@ -79,7 +82,7 @@ function gotResult(error, results) {
     console.error(error);
   } else {
     //console.log(results);
-    submitButton.hide();
+    submitButton.style("display", "none");
     label.html("Label: " + results[0].label);
     confidence.html("Confidence: " + round(results[0].confidence, 2));
   }

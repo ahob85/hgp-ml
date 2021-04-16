@@ -1,4 +1,5 @@
 // Interface elements
+let canvasDiv;
 let canvas;
 let textDiv;
 let label;
@@ -8,9 +9,11 @@ let mobilenet;
 let video;
 
 function setup() {
+  canvasDiv = createDiv();
   canvas = createCanvas(640, 480);
+  canvas.parent(canvasDiv);
   video = createCapture(VIDEO);
-  video.hide();
+  video.style("display", "none");
   mobilenet = ml5.imageClassifier("MobileNet", video);
   textDiv = createDiv();
   label = createP();
