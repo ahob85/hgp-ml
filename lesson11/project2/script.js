@@ -1,3 +1,5 @@
+// https://teachablemachine.withgoogle.com/models/mOUcIMCbN/
+
 // UI Variables
 let canvasDiv;
 let canvas;
@@ -39,10 +41,8 @@ let alienBulletX;
 let alienBulletY;
 
 // ML Variables
-let video;
-let featureExtractor;
-let knn;
-let labelString;
+let soundClassifier;
+let labelString = "";
 
 /*
  * setup()
@@ -52,9 +52,10 @@ let labelString;
  */
 function setup() {
   // ML setup
-  video = createCapture(VIDEO);
-  video.style("display", "none");
-  featureExtractor = ml5.featureExtractor("MobileNet", modelReady);
+  const options = {
+    probabilityThreshold: 0.95
+  };
+  soundClassifier = ml5.soundClassifier("https://teachablemachine.withgoogle.com/models/mOUcIMCbN/model.json", options, modelReady);
   // Build UI
   textDiv = createDiv();
   gameText = createP("Model loading, please wait...");
@@ -107,26 +108,19 @@ function setup() {
 }
 
 function modelReady() {
-  console.log("MobileNet Ready!");
-  knn = ml5.KNNClassifier();
-  knn.load("myKNN.json", function() {
-    console.log("k-NN model ready!");
-    toggleShipButtons();
-    gameText.html("Select Ship");
-    myClassify();
-  });
+  console.log("Model Ready!");
+  soundClassifier.classify(gotResults);
+  toggleShipButtons();
+  gameText.html("Select Ship");
 }
 
-function myClassify() {
-  const features = featureExtractor.infer(video);
-  knn.classify(features, function (error, result) {
-    if(error) {
-      console.error(error);
-    } else {
-      labelString = getLabel(result);
-      myClassify();
-    }
-  });
+function gotResults(error, results) {
+  if(error) {
+    console.error(error);
+  } else {
+    console.log(results[0].label);
+    labelString = results[0].label;
+  }
 }
 
 function createShip(sColor, sDiameter, sSpeed, bDiameter) {
@@ -215,11 +209,11 @@ function draw() {
  * x value by checking if the player is holding down the left or right keys.
  */
 function drawShip() {
-  if(labelString.includes("left") && shipX > shipDiameter / 2) {
+  if(labelString.toLowerCase().includes("left") && shipX > shipDiameter / 2) {
     shipX -= shipSpeed;
-  } else if(labelString.includes("right") && shipX < width - shipDiameter / 2) {
+  } else if(labelString.toLowerCase().includes("right") && shipX < width - shipDiameter / 2) {
     shipX += shipSpeed;
-  } else if(labelString.includes("fire") && !shipShooting && gameRunning) {
+  } else if(labelString.toLowerCase().includes("fire") && !shipShooting && gameRunning) {
     bulletY = shipY - shipDiameter / 2;
     bulletX = shipX;
     shipShooting = true;
@@ -286,11 +280,11 @@ function drawAlien() {
     }
     fill("#ff00ff");
     ellipse(alienX, alienY, alienDiameter, alienDiameter);
-    if(random(4) < 1 && !alienShooting) {
-      alienBulletY = alienY + alienDiameter / 2;
-      alienBulletX = alienX;
-      alienShooting = true;
-    }
+    // if(random(4) < 1 && !alienShooting) {
+    //   alienBulletY = alienY + alienDiameter / 2;
+    //   alienBulletX = alienX;
+    //   alienShooting = true;
+    // }
   }
   else if(hitShip) {
     gameOver();
