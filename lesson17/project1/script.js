@@ -15,7 +15,7 @@ function setup() {
   textDiv = createDiv();
   textP = createP();
   textP.parent(textDiv);
-  textP.html("Model loading, please wait...");
+  //textP.html("Model loading, please wait...");
   let options = {
     inputs: ["x", "y"],
     outputs: ["label"],
