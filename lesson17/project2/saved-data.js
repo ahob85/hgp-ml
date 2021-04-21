@@ -23,12 +23,15 @@ function setup() {
     learningRate: 0.5
   };
   model = ml5.neuralNetwork(options);
+  model.loadData("mouse-letters-data.json", function() {
+    console.log("Data loaded! Press \"t\" to start training!");
+  });
 }
 
 function keyPressed() {
   if(key == "t") {
     state = "training";
-    console.log("Training started! After training, press \"s\" to save the training data.");
+    console.log("Training started!");
     textP.html("Step 2: Training");
     model.normalizeData();
     let options = {
