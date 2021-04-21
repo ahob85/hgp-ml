@@ -23,7 +23,7 @@ function setup() {
     learningRate: 0.5
   };
   model = ml5.neuralNetwork(options);
-  model.loadData("mouse-letters-data.json");
+  model.loadData("model/mouse-letters-data.json");
 }
 
 function keyPressed() {
