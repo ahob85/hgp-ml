@@ -13,7 +13,9 @@ let notes = {
   D: 293.6648,
   E: 329.6276,
   F: 349.2282,
-  G: 391.9954
+  G: 391.9954,
+  A: 440.0000,
+  B: 493.8833
 }
 
 function setup() {
@@ -25,17 +27,11 @@ function setup() {
   textP.html("Step 1: Data Collection");
   let options = {
     inputs: ["x", "y"],
-    outputs: ["label"],
-    task: "classification",
-    debug: true,
+    outputs: ["frequency"],
+    task: "regression",
+    debug: true
   };
   model = ml5.neuralNetwork(options);
-  const modelInfo = {
-    model: "model/model.json",
-    metadata: "model/model_meta.json",
-    weights: "model/model.weights.bin"
-  };
-  model.load(modelInfo, modelLoaded);
   createMusicSystem();
 }
 
@@ -50,25 +46,15 @@ function createMusicSystem() {
   wave.amp(env);
 }
 
-function modelLoaded() {
-  console.log("Model loaded!");
-  state = "prediction";
-  textP.html("Step 3: Prediction");
-}
-
 function keyPressed() {
   if(key == "t") {
     state = "training";
     textP.html("Step 2: Training");
     model.normalizeData();
     let options = {
-      epochs: 100
+      epochs: 50
     };
     model.train(options, whileTraining, finishedTraining);
-  } else if(key == "s") {
-    model.saveData("mouse-letters-data");
-  } else if (key == "m") {
-    model.save("mouse-letters-model");
   } else {
     targetLabel = key.toUpperCase();
   }
@@ -89,8 +75,9 @@ function mousePressed() {
     y: mouseY
   };
   if(state === "collection") {
+    let targetFrequency = notes[targetLabel];
     let target = {
-      label: targetLabel
+      frequency: targetFrequency
     };
     model.addData(inputs, target);
     stroke(0);
@@ -100,10 +87,10 @@ function mousePressed() {
     noStroke();
     textAlign(CENTER, CENTER);
     text(targetLabel, mouseX, mouseY);
-    wave.freq(notes[targetLabel]);
+    wave.freq(targetFrequency);
     env.play();
   } else if(state === "prediction") {
-    model.classify(inputs, gotResults);
+    model.predict(inputs, gotResults);
   }
 }
 
@@ -122,8 +109,8 @@ function gotResults(error, results) {
     noStroke();
     textAlign(CENTER, CENTER);
     let label = results[0].label;
-    text(label, mouseX, mouseY);
-    wave.freq(notes[label]);
+    text(floor(results[0].value), mouseX, mouseY);
+    wave.freq(results[0].value);
     env.play();
   }
 }
