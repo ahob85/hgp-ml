@@ -23,12 +23,12 @@ function setup() {
     learningRate: 0.5
   };
   model = ml5.neuralNetwork(options);
+  model.loadData("mouse-letters-data.json");
 }
 
 function keyPressed() {
   if(key == "t") {
     state = "training";
-    console.log("Training started! After training, press \"s\" to save the training data.");
     textP.html("Step 2: Training");
     model.normalizeData();
     let options = {
@@ -37,7 +37,8 @@ function keyPressed() {
     model.train(options, whileTraining, finishedTraining);
   } else if(key == "s") {
     model.saveData("mouse-letters-data");
-    console.log("Data saved!");
+  } else if (key == "m") {
+    model.save();
   } else {
     targetLabel = key.toUpperCase();
   }
@@ -48,10 +49,8 @@ function whileTraining(epoch, loss) {
 }
 
 function finishedTraining() {
-  console.log("Finished Training! Press \"s\" to save the training data, or begin predicting by clicking the canvas.");
   state = "prediction";
   textP.html("Step 3: Prediction");
-  console.log(model.data);
 }
 
 function mousePressed() {
@@ -77,14 +76,13 @@ function mousePressed() {
 }
 
 function draw() {
-  //background(255);
+
 }
 
 function gotResults(error, results) {
   if(error) {
     console.error(error);
   } else {
-    console.log(results);
     stroke(0);
     fill(0, 0, 255);
     ellipse(mouseX, mouseY, 24);

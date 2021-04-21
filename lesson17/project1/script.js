@@ -27,7 +27,6 @@ function setup() {
 function keyPressed() {
   if(key == "t") {
     state = "training";
-    console.log("Training started!");
     textP.html("Step 2: Training");
     model.normalizeData();
     let options = {
@@ -44,7 +43,6 @@ function whileTraining(epoch, loss) {
 }
 
 function finishedTraining() {
-  console.log("Finished Training!");
   state = "prediction";
   textP.html("Step 3: Prediction");
 }
@@ -72,14 +70,13 @@ function mousePressed() {
 }
 
 function draw() {
-  //background(255);
+
 }
 
 function gotResults(error, results) {
   if(error) {
     console.error(error);
   } else {
-    console.log(results);
     stroke(0);
     fill(0, 0, 255);
     ellipse(mouseX, mouseY, 24);
