@@ -7,6 +7,14 @@ let textP;
 let model;
 let targetLabel = "C";
 let state = "collection";
+let env, wave;
+let notes = {
+  C: 261.6256,
+  D: 293.6648,
+  E: 329.6276,
+  F: 349.2282,
+  G: 391.9954
+}
 
 function setup() {
   canvasDiv = createDiv();
@@ -19,8 +27,7 @@ function setup() {
     inputs: ["x", "y"],
     outputs: ["label"],
     task: "classification",
-    debug: true,
-    learningRate: 0.5
+    debug: true
   };
   model = ml5.neuralNetwork(options);
   const modelInfo = {
@@ -29,6 +36,18 @@ function setup() {
     weights: "model/model.weights.bin"
   };
   model.load(modelInfo, modelLoaded);
+  createMusicSystem();
+}
+
+function createMusicSystem() {
+  env = new p5.Envelope();
+  env.setADSR(0.05, 0.1, 0.5, 1);
+  env.setRange(1.2, 0);
+  wave = new p5.Oscillator();
+  wave.setType("sine");
+  wave.start();
+  wave.freq(440);
+  wave.amp(env);
 }
 
 function modelLoaded() {
@@ -81,6 +100,8 @@ function mousePressed() {
     noStroke();
     textAlign(CENTER, CENTER);
     text(targetLabel, mouseX, mouseY);
+    wave.freq(notes[targetLabel]);
+    env.play();
   } else if(state === "prediction") {
     model.classify(inputs, gotResults);
   }
@@ -100,6 +121,9 @@ function gotResults(error, results) {
     fill(255);
     noStroke();
     textAlign(CENTER, CENTER);
-    text(results[0].label, mouseX, mouseY);
+    let label = results[0].label;
+    text(label, mouseX, mouseY);
+    wave.freq(notes[label]);
+    env.play();
   }
 }

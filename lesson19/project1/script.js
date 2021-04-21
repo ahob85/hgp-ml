@@ -27,9 +27,15 @@ function setup() {
     inputs: ["x", "y"],
     outputs: ["label"],
     task: "classification",
-    debug: true
+    debug: true,
   };
   model = ml5.neuralNetwork(options);
+  const modelInfo = {
+    model: "model/model.json",
+    metadata: "model/model_meta.json",
+    weights: "model/model.weights.bin"
+  };
+  model.load(modelInfo, modelLoaded);
   createMusicSystem();
 }
 
@@ -44,6 +50,12 @@ function createMusicSystem() {
   wave.amp(env);
 }
 
+function modelLoaded() {
+  console.log("Model loaded!");
+  state = "prediction";
+  textP.html("Step 3: Prediction");
+}
+
 function keyPressed() {
   if(key == "t") {
     state = "training";
@@ -53,6 +65,10 @@ function keyPressed() {
       epochs: 100
     };
     model.train(options, whileTraining, finishedTraining);
+  } else if(key == "s") {
+    model.saveData("mouse-letters-data");
+  } else if (key == "m") {
+    model.save("mouse-letters-model");
   } else {
     targetLabel = key.toUpperCase();
   }
