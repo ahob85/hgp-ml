@@ -1,3 +1,4 @@
+// UI variables
 let canvasDiv;
 let canvas;
 let textDiv;
@@ -8,13 +9,14 @@ let resolution = 20;
 let food;
 let w;
 let h;
+let score = 0;
 
 function setup() {
   canvasDiv = createDiv();
   canvas = createCanvas(640, 480);
   canvas.parent(canvasDiv);
   textDiv = createDiv();
-  textP = createP();
+  textP = createP("Score: " + score);
   textP.parent(textDiv);
   w = floor(width / resolution);
   h = floor(height / resolution);
@@ -35,6 +37,8 @@ function draw() {
   // Draw the snake
   if(snake.eat(food)) {
     foodLocation();
+    score++;
+    textP.html("Score: " + score);
   };
 
   snake.update();
@@ -45,7 +49,7 @@ function draw() {
   rect(food.x, food.y, 1, 1);
   // Check end game
   if(snake.endGame()) {
-    textP.html("YOU LOSE");
+    textP.html("YOU LOSE. Final Score: " + score);
     background(255, 0, 0);
     noLoop();
   }
