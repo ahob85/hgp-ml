@@ -10,7 +10,10 @@ function setup() {
   canvasDiv = createDiv();
   canvas = createCanvas(640, 480);
   canvas.parent(canvasDiv);
-  video = createCapture(VIDEO);
+  video = createCapture(VIDEO, videoReady);
+}
+
+function videoReady() {
   video.style("display", "none");
   detector = ml5.objectDetector("cocossd");
   detector.detect(video, gotResults);
