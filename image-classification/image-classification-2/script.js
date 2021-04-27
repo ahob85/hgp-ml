@@ -18,14 +18,7 @@
   data).
 *******************************************************************************/
 
-let canvasDiv;
-let canvas;
-let textDiv;
-let textP;
-let buttonDiv;
-let uploadButton;
-let submitButton;
-let resetButton;
+//let canvasDiv;
 
 /*******************************************************************************
                             Global ML Variables
@@ -37,8 +30,7 @@ let resetButton;
   An image loaded into the program for classification.
 *******************************************************************************/
 
-let mobilenet;
-let img;
+//let mobilenet;
 
 /******************************************************************************
                                   setup()

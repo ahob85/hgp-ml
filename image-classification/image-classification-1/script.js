@@ -23,7 +23,7 @@
 /*******************************************************************************
                             Global ML Variables
 
-  model
+  mobilenet
   The machine learning model we will use in this program.
 
   img
