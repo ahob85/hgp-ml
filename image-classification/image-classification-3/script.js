@@ -29,7 +29,7 @@
   video
   An video loaded into the program for classification.
 
-  modelIsReady
+  isModelReady
   Initialized to false in setup(). Set to true when the model has been loaded
   successfully.
 *******************************************************************************/

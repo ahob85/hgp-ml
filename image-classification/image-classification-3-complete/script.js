@@ -32,14 +32,14 @@ let textP;
   video
   An video loaded into the program for classification.
 
-  modelIsReady
+  isModelReady
   Initialized to false in setup(). Set to true when the model has been loaded
   successfully.
 *******************************************************************************/
 
 let mobilenet;
 let video;
-let modelIsReady;
+let isModelReady;
 
 /******************************************************************************
                                   setup()
@@ -58,7 +58,7 @@ function setup() {
   textP.parent(textDiv);
   video = createCapture(VIDEO);
   video.style("display", "none");
-  modelIsReady = false;
+  isModelReady = false;
   mobilenet = ml5.imageClassifier("MobileNet", modelReady);
 }
 
@@ -72,7 +72,7 @@ function setup() {
 
 function draw() {
   image(video, 0, 0);
-  if(modelIsReady) {
+  if(isModelReady) {
     mobilenet.classify(canvas, gotResults);
   }
 }
@@ -87,7 +87,7 @@ function draw() {
 *******************************************************************************/
 
 function modelReady() {
-  modelIsReady = true;
+  isModelReady = true;
 }
 
 /******************************************************************************
