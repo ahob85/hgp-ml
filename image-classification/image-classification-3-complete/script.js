@@ -30,7 +30,7 @@ let textP;
   The machine learning model we will use in this program.
 
   video
-  An video loaded into the program for classification.
+  A video loaded into the program for classification.
 
   isModelReady
   Initialized to false in setup(). Set to true when the model has been loaded
@@ -46,7 +46,7 @@ let isModelReady;
 
   This is a built-in p5.js function that is automatically called when the
   program starts, just before draw(). This is used for initializing global
-  variables, building the UI, and loading images, video, datal, and models.
+  variables, building the UI, and loading images, video, data, and models.
 *******************************************************************************/
 
 function setup() {
@@ -80,7 +80,7 @@ function draw() {
 /******************************************************************************
                                modelReady()
 
-  A callback function. Called after the mobilenet model has been loaded. When
+  A callback function. Called after the MobileNet model has been loaded. When
   the model is ready, we simply call classify() (no need to pass in the canvas
   since we are capturing webcam video), and only pass in gotResults() as a
   callback function.
@@ -95,9 +95,6 @@ function modelReady() {
 
   This function is a callback for classify(). In other words, after MobileNet
   has classified the image, it should call this function next.
-
-  Be sure to hide the submit button after the results have been shown! Users
-  should only be able to click the reset button at this point.
 
   parameters
   - error: If there was an error while running classify(), it should be brought

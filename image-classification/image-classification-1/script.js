@@ -38,7 +38,7 @@
 
   This is a built-in p5.js function that is automatically called when the
   program starts, just before draw(). This is used for initializing global
-  variables, building the UI, and loading images, video, datal, and models.
+  variables, building the UI, and loading images, video, data, and models.
 *******************************************************************************/
 
 function setup() {

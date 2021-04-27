@@ -37,7 +37,7 @@
 
   This is a built-in p5.js function that is automatically called when the
   program starts, just before draw(). This is used for initializing global
-  variables, building the UI, and loading images, video, datal, and models.
+  variables, building the UI, and loading images, video, data, and models.
 *******************************************************************************/
 
 function setup() {
@@ -59,7 +59,7 @@ function draw() {
 /******************************************************************************
                                modelReady()
 
-  A callback function. Called after the mobilenet model has been loaded. It
+  A callback function. Called after the MobileNet model has been loaded. It
   should make the UI text read "Upload an image to classify!" and display the
   upload button for users.
 *******************************************************************************/

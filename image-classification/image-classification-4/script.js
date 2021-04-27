@@ -18,13 +18,7 @@
   data).
 *******************************************************************************/
 
-let canvasDiv;
-let canvas;
-let textDiv;
-let textP;
-let buttonDiv;
-let submitButton;
-let resetButton;
+//let canvasDiv;
 
 /*******************************************************************************
                             Global ML Variables
@@ -37,8 +31,7 @@ let resetButton;
 
 *******************************************************************************/
 
-let doodlenet;
-let img;
+//let doodlenet;
 
 /******************************************************************************
                                   setup()
@@ -49,21 +42,7 @@ let img;
 *******************************************************************************/
 
 function setup() {
-  canvasDiv = createDiv();
-  canvas = createCanvas(640, 480);
-  canvas.parent(canvasDiv);
-  textDiv = createDiv();
-  textP = createP("Model loading, please wait...");
-  textP.parent(textDiv);
-  buttonDiv = createDiv();
-  submitButton = createButton("SUBMIT");
-  submitButton.parent(buttonDiv);
-  submitButton.mousePressed(predictImage);
-  resetButton = createButton("RESET");
-  resetButton.parent(buttonDiv);
-  resetButton.mousePressed(resetCanvas);
-  buttonDiv.style("display", "none");
-  doodlenet = ml5.imageClassifier("DoodleNet", modelReady);
+
 }
 
 /******************************************************************************
@@ -75,10 +54,7 @@ function setup() {
 *******************************************************************************/
 
 function draw() {
-  if(mouseIsPressed) {
-    strokeWeight(25);
-    line(mouseX, mouseY, pmouseX, pmouseY);
-  }
+
 }
 
 /******************************************************************************
@@ -92,8 +68,7 @@ function draw() {
 *******************************************************************************/
 
 function resetCanvas() {
-  background(255);
-  textP.html("Draw your image, then click submit!");
+
 }
 
 /******************************************************************************
@@ -106,8 +81,7 @@ function resetCanvas() {
 *******************************************************************************/
 
 function modelReady() {
-  buttonDiv.style("display", "block");
-  textP.html("Draw your image, then click submit!");
+
 }
 
 /******************************************************************************
@@ -118,7 +92,7 @@ function modelReady() {
 *******************************************************************************/
 
 function predictImage() {
-  doodlenet.classify(canvas, gotResults);
+
 }
 
 /******************************************************************************
@@ -136,12 +110,5 @@ function predictImage() {
 *******************************************************************************/
 
 function gotResults(error, results) {
-  if(error) {
-    console.error(error);
-  } else {
-    //console.log(results);
-    let label = results[0].label;
-    let confidence = round(results[0].confidence, 2);
-    textP.html("Label: " + label + " - Confidence " + confidence);
-  }
+
 }
