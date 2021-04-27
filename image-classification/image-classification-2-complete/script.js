@@ -6,8 +6,7 @@ let uploadButton;
 let submitButton;
 let resetButton;
 let textDiv;
-let label;
-let confidence;
+let textP;
 
 let mobilenet;
 let img;
@@ -16,7 +15,9 @@ function setup() {
   canvasDiv = createDiv();
   canvas = createCanvas(640, 480);
   canvas.parent(canvasDiv);
-  mobilenet = ml5.imageClassifier("MobileNet", modelReady);
+  textDiv = createDiv();
+  textP = createP("Model loading, please wait...");
+  textP.parent(textDiv);
   buttonDiv = createDiv();
   uploadButton = createFileInput(handleFile);
   uploadButton.parent(buttonDiv);
@@ -29,13 +30,7 @@ function setup() {
   resetButton.parent(buttonDiv);
   resetButton.mousePressed(resetCanvas);
   resetButton.style("display", "none");
-  textDiv = createDiv();
-  label = createP();
-  label.parent(textDiv);
-  confidence = createP();
-  confidence.parent(textDiv);
-  textSize(32);
-  text("Model loading, please wait...", width / 6, height / 2);
+  mobilenet = ml5.imageClassifier("MobileNet", modelReady);
 }
 
 function draw() {
@@ -43,17 +38,15 @@ function draw() {
 }
 
 function modelReady() {
-  background(255);
+  textP.html("Upload an image to classify!");
   uploadButton.style("display", "inline");
 }
 
 function resetCanvas() {
   background(255);
-  label.html("");
-  confidence.html("");
   submitButton.style("display", "none");
   resetButton.style("display", "none");
-  uploadButton.style("display", "inline");
+  modelReady();
 }
 
 function handleFile(file) {
@@ -66,11 +59,11 @@ function handleFile(file) {
 }
 
 function imageReady() {
-  background(255);
   image(img, 0, 0, width, height);
   submitButton.style("display", "inline");
   resetButton.style("display", "inline");
   uploadButton.style("display", "none");
+  textP.html("Click \"submit\" to classify!");
 }
 
 function predictImage() {
@@ -83,7 +76,8 @@ function gotResult(error, results) {
   } else {
     //console.log(results);
     submitButton.style("display", "none");
-    label.html("Label: " + results[0].label);
-    confidence.html("Confidence: " + round(results[0].confidence, 2));
+    let label = results[0].label;
+    let confidence = round(results[0].confidence, 2);
+    textP.html("Label: " + label + " - Confidence " + confidence);
   }
 }
