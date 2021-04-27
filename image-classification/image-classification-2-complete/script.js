@@ -152,7 +152,7 @@ function imageReady() {
 /******************************************************************************
                                predictImage()
 
-  What happens when a user clicks the submit button. Simply use mobilenet to
+  What happens when a user clicks the submit button. Simply use MobileNet to
   classify the image on the canvas, and pass gotResults() as a callback.
 *******************************************************************************/
 
@@ -163,7 +163,7 @@ function predictImage() {
 /******************************************************************************
                           gotResults(error, results)
 
-  This function is a callback for classify(). In other words, after mobilenet
+  This function is a callback for classify(). In other words, after MobileNet
   has classified the image, it should call this function next.
 
   Be sure to hide the submit button after the results have been shown! Users

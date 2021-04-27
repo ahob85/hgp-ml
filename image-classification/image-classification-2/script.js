@@ -105,7 +105,7 @@ function handleFile(file) {
 
   A callback function, called after handleFile() has loaded an image.
 
-  1) Draw the image canvas: image(img, 0, 0, width, height);
+  1) Draw the image to the canvas: image(img, 0, 0, width, height);
   2) Display the submit and reset buttons.
   3) Hide the upload button.
   4) Make the UI text read "Image ready for classification!"
@@ -118,7 +118,7 @@ function imageReady() {
 /******************************************************************************
                                predictImage()
 
-  What happens when a user clicks the submit button. Simply use mobilenet to
+  What happens when a user clicks the submit button. Simply use MobileNet to
   classify the image on the canvas, and pass gotResults() as a callback.
 *******************************************************************************/
 
@@ -129,7 +129,7 @@ function predictImage() {
 /******************************************************************************
                           gotResults(error, results)
 
-  This function is a callback for classify(). In other words, after mobilenet
+  This function is a callback for classify(). In other words, after MobileNet
   has classified the image, it should call this function next.
 
   Be sure to hide the submit button after the results have been shown! Users

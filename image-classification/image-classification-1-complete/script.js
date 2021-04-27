@@ -84,7 +84,7 @@ function imageLoaded() {
 /******************************************************************************
                           gotResults(error, results)
 
-  This function is a callback for classify(). In other words, after mobilenet
+  This function is a callback for classify(). In other words, after MobileNet
   has classified the image, it should call this function next.
 
   parameters
