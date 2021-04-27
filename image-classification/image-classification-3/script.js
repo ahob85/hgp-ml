@@ -26,12 +26,15 @@
   mobilenet
   The machine learning model we will use in this program.
 
-  img
-  An image loaded into the program for classification.
+  video
+  An video loaded into the program for classification.
+
+  modelIsReady
+  Initialized to false in setup(). Set to true when the model has been loaded
+  successfully.
 *******************************************************************************/
 
 //let mobilenet;
-
 
 /******************************************************************************
                                   setup()
@@ -58,15 +61,15 @@ function draw() {
 }
 
 /******************************************************************************
-                                imageLoaded()
+                               modelReady()
 
-  A single-line callback that is called after an image has been loaded by
-  loadImage(). Simply draws the image onto the canvas like this:
-
-  image(img, 0, 0, width, height);
+  A callback function. Called after the mobilenet model has been loaded. When
+  the model is ready, we simply call classify() (no need to pass in the canvas
+  since we are capturing webcam video), and only pass in gotResults() as a
+  callback function.
 *******************************************************************************/
 
-function imageLoaded() {
+function modelReady() {
 
 }
 
@@ -75,6 +78,9 @@ function imageLoaded() {
 
   This function is a callback for classify(). In other words, after MobileNet
   has classified the image, it should call this function next.
+
+  Be sure to hide the submit button after the results have been shown! Users
+  should only be able to click the reset button at this point.
 
   parameters
   - error: If there was an error while running classify(), it should be brought
