@@ -14,7 +14,7 @@
   This is where you will print any kind of text (e.g., the label of an image).
 
   buttons
-  If included, these are for user interaction (e.g., training a model, inputing
+  If included, these are for user interaction (e.g., training a model, inputting
   data).
 *******************************************************************************/
 
