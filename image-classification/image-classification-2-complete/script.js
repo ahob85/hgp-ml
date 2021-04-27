@@ -1,12 +1,12 @@
 // Interface elements
 let canvasDiv;
 let canvas;
+let textDiv;
+let textP;
 let buttonDiv;
 let uploadButton;
 let submitButton;
 let resetButton;
-let textDiv;
-let textP;
 
 let mobilenet;
 let img;
