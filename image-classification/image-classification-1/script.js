@@ -64,9 +64,24 @@ function draw() {
   loadImage(). Simply draws the image onto the canvas like this:
 
   image(img, 0, 0, width, height);
+
+  Also loads the model (passing in modelReady() as a callback):
+
+  mobilenet = ml5.imageClassifier("MobileNet", modelReady);
 *******************************************************************************/
 
 function imageLoaded() {
+
+}
+
+/******************************************************************************
+                               modelReady()
+
+  A callback function. Called after the MobileNet model has been loaded. It
+  should simply classify the image (or if using webcam video, the current frame) on the canvas.
+*******************************************************************************/
+
+function modelReady() {
 
 }
 

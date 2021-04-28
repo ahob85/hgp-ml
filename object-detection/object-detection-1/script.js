@@ -18,23 +18,19 @@
   data).
 *******************************************************************************/
 
-let canvasDiv;
-let canvas;
-let textDiv;
-let textp;
+//let canvasDiv;
 
 /*******************************************************************************
                             Global ML Variables
 
-  mobilenet
+  detector
   The machine learning model we will use in this program.
 
   img
   An image loaded into the program for classification.
 *******************************************************************************/
 
-let mobilenet;
-let img;
+//let detector;
 
 /******************************************************************************
                                   setup()
@@ -45,13 +41,7 @@ let img;
 *******************************************************************************/
 
 function setup() {
-  canvasDiv = createDiv();
-  canvas = createCanvas(640, 480);
-  canvas.parent(canvasDiv);
-  textDiv = createDiv();
-  textP = createP("Model loading, please wait...");
-  textP.parent(textDiv);
-  img = loadImage("../../images/guinea-pig.jpg", imageLoaded);
+
 }
 
 /******************************************************************************
@@ -69,37 +59,52 @@ function draw() {
 /******************************************************************************
                                 imageLoaded()
 
-  A single-line callback that is called after an image has been loaded by
-  loadImage(). Simply draws the image onto the canvas like this:
+  A callback that is called after an image has been loaded by loadImage().
+  Draws the image onto the canvas like this:
 
   image(img, 0, 0, width, height);
 
   Also loads the model (passing in modelReady() as a callback):
 
-  mobilenet = ml5.imageClassifier("MobileNet", modelReady);
+  detector = ml5.objectDetector("cocossd", modelReady);
 *******************************************************************************/
 
 function imageLoaded() {
-  image(img, 0, 0, width, height);
-  mobilenet = ml5.imageClassifier("MobileNet", modelReady);
+
 }
 
 /******************************************************************************
                                modelReady()
 
-  A callback function. Called after the MobileNet model has been loaded. It
-  should simply classify the image (or if using webcam video, the current frame) on the canvas.
+  A callback function. Called after the COCO-SSD model has been loaded. It
+  should simply detect objects in the image (or if using webcam video, the
+  current frame) on the canvas.
 *******************************************************************************/
 
 function modelReady() {
-  mobilenet.classify(canvas, gotResults);
+
+}
+
+/******************************************************************************
+                              drawLabel(object)
+
+  Draw a colored rectangle around an object. Then, draw text somewhere near the
+  object indicating the label of the object, along with its associated
+  confidence value.
+*******************************************************************************/
+
+function drawLabel(object) {
+  // Draw a rectangular outline around the object
+
+  // Draw the label and its confidence value near the object
+
 }
 
 /******************************************************************************
                           gotResults(error, results)
 
-  This function is a callback for classify(). In other words, after MobileNet
-  has classified the image, it should call this function next.
+  This function is a callback for detect(). In other words, after cocossd
+  has detected and classified the image, it should call this function next.
 
   parameters
   - error: If there was an error while running classify(), it should be brought
@@ -110,12 +115,5 @@ function modelReady() {
 *******************************************************************************/
 
 function gotResults(error, results) {
-  if(error) {
-    console.error(error);
-  } else {
-    console.log(results);
-    let label = results[0].label;
-    let confidence = round(results[0].confidence, 2);
-    textP.html("Label: " + label + " - Confidence " + confidence);
-  }
+
 }
