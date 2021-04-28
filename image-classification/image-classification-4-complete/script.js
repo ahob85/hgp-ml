@@ -35,10 +35,14 @@ let resetButton;
   img
   An image loaded into the program for classification.
 
+  isModelReady
+  Initialized to false in setup(). Set to true when the model has been loaded
+  successfully.
 *******************************************************************************/
 
 let doodlenet;
 let img;
+let isModelReady;
 
 /******************************************************************************
                                   setup()
@@ -63,6 +67,7 @@ function setup() {
   resetButton.parent(buttonDiv);
   resetButton.mousePressed(resetCanvas);
   buttonDiv.style("display", "none");
+  isModelReady = false;
   doodlenet = ml5.imageClassifier("DoodleNet", modelReady);
 }
 
@@ -75,7 +80,7 @@ function setup() {
 *******************************************************************************/
 
 function draw() {
-  if(mouseIsPressed) {
+  if(mouseIsPressed && isModelReady) {
     strokeWeight(25);
     line(mouseX, mouseY, pmouseX, pmouseY);
   }
@@ -106,6 +111,7 @@ function resetCanvas() {
 *******************************************************************************/
 
 function modelReady() {
+  isModelReady = true;
   buttonDiv.style("display", "block");
   textP.html("Draw your image, then click submit!");
 }
