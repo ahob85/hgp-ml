@@ -192,6 +192,7 @@ function modelReady() {
 
 function whileTraining(loss) {
   if(loss === null) {
+    buttonDiv.style("display", "none");
     isTrainingComplete = true;
   } else {
     console.log(loss);
