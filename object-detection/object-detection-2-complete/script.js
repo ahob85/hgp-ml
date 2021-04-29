@@ -77,7 +77,7 @@ function setup() {
 function draw() {
   if(isModelReady) {
     image(video, 0, 0);
-    detector.detect(video, gotResults);
+    detector.detect(canvas, gotResults);
     for(let i = 0; i < detections.length; i++) {
       drawLabel(detections[i]);
     }
@@ -132,7 +132,7 @@ function drawLabel(object) {
   fill(255, 0, 0);
   textSize(20);
   let label = object.label;
-  let confidence = round(object.confidence, 2) * 100;
+  let confidence = floor(object.confidence * 100);
   text(label + ": " + confidence + "%", object.x + 10, object.y + 20);
 }
 

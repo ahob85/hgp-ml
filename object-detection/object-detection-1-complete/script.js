@@ -114,7 +114,7 @@ function drawLabel(object) {
   fill(255, 0, 0);
   textSize(20);
   let label = object.label;
-  let confidence = round(object.confidence, 2) * 100;
+  let confidence = floor(object.confidence * 100);
   text(label + ": " + confidence + "%", object.x + 10, object.y + 20);
 }
 
@@ -136,7 +136,7 @@ function gotResults(error, results) {
   if(error) {
     console.error(error);
   } else {
-    console.log(results);
+    //console.log(results);
     textP.html("I detect these objects!");
     for(let i = 0; i < results.length; i++) {
       drawLabel(results[i]);
