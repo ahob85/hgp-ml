@@ -4,7 +4,7 @@
                           Global UI Variables
 
   canvasDiv, textDiv, buttonDiv
-  In the project's HTML, the DIVs that will contain various elements that may
+  In the project's HTML, the divs that will contain various elements that may
   be created in setup(). Useful for styling (e.g., keeping them all centered).
 
   canvas

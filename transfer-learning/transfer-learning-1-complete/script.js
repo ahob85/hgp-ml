@@ -4,7 +4,7 @@
                           Global UI Variables
 
   canvasDiv, textDiv, buttonDiv
-  In the project's HTML, the DIVs that will contain various elements that may
+  In the project's HTML, the divs that will contain various elements that may
   be created in setup(). Useful for styling (e.g., keeping them all centered).
 
   canvas
@@ -170,7 +170,7 @@ function featuresExtracted() {
 
   A callback function. Called after the classifier model has been loaded. Here
   we set isModelReady to true, print some instructional text ("Add training
-  data, then click train!"), then reveal the button DIV so users can interact
+  data, then click train!"), then reveal the button div so users can interact
   with the app.
 *******************************************************************************/
 
@@ -184,10 +184,10 @@ function modelReady() {
                                   whileTraining()
 
   A callback function. Called continuously as the new classifier model is being
-  trained. If the loss (error) value is null, then set isTrainingComplete to
-  true. Otherwise, log the loss value to the console. You should notice the
-  loss value going down as the model becomes better at its classification task
-  over time.
+  trained. If the loss (error) value is null, then hide the button div and set
+  isTrainingComplete to true. Otherwise, log the loss value to the console. You
+  should notice the loss value going down as the model becomes better at its
+  classification task over time.
 *******************************************************************************/
 
 function whileTraining(loss) {
