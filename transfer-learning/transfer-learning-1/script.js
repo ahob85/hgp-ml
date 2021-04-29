@@ -18,33 +18,30 @@
   data).
 *******************************************************************************/
 
-let canvasDiv;
-let canvas;
-let textDiv;
-let textP;
+//let canvasDiv;
+
 
 /*******************************************************************************
                             Global ML Variables
 
-  detector
-  The machine learning model we will use in this program.
+  features
+  The features of the MobileNet model.
+
+  classifier
+  The new model we have created from MobileNet's features.
 
   video
   A video loaded into the program for object detection.
 
-  detections
-  An array that contains all of the objects the model has detected in the
-  current video frame on the canvas.
+  happies, sads
+  The number of times the user has clicked the "happy" and "sad" buttons.
 
-  isModelReady
+  isModelReady, isTrainingComplete
   Initialized to false in setup(). Set to true when the model has been loaded
-  successfully.
+  successfully, or when training is complete.
 *******************************************************************************/
 
-let detector;
-let video;
-let detections;
-let isModelReady;
+//let features;
 
 /******************************************************************************
                                   setup()
@@ -55,15 +52,7 @@ let isModelReady;
 *******************************************************************************/
 
 function setup() {
-  canvasDiv = createDiv();
-  canvas = createCanvas(640, 480);
-  canvas.parent(canvasDiv);
-  textDiv = createDiv();
-  textP = createP("Model loading, please wait...");
-  textP.parent(textDiv);
-  video = createCapture(VIDEO, videoReady);
-  detections = [];
-  isModelReady = false;
+
 }
 
 /******************************************************************************
@@ -75,13 +64,24 @@ function setup() {
 *******************************************************************************/
 
 function draw() {
-  if(isModelReady) {
-    image(video, 0, 0);
-    detector.detect(canvas, gotResults);
-    for(let i = 0; i < detections.length; i++) {
-      drawLabel(detections[i]);
-    }
-  }
+
+}
+
+/******************************************************************************
+                               buildButtons()
+
+  Builds all of the app's buttons: happy, sad, and train. When the happy and
+  sad buttons are clicked, they increment the happies and sads variables,
+  respectively. They also add the current image on the canvas to the training
+  data, with the label "Happy" or "Sad".
+
+  When the training button is clicked, the model begins training on its current
+  training data, and a function called whileTraining() is passed as a callback
+  to run while this is happening.
+*******************************************************************************/
+
+function buildButtons() {
+
 }
 
 /******************************************************************************
@@ -92,55 +92,61 @@ function draw() {
 
   video.display("display", "none");
 
-  Then, now that we have video, we load the COCO-SSD model with:
+  Then, now that we have video, we extract the features from the MobileNet
+  model with:
 
-  detector = ml5.objectDetector("cocossd", modelReady);
+  features = ml5.featureExtractor("MobileNet", modelReady);
 *******************************************************************************/
 
 function videoReady() {
-  video.style("display", "none");
-  detector = ml5.objectDetector("cocossd", modelReady);
+
 }
 
 /******************************************************************************
-                               modelReady()
+                               featuresExtracted()
 
-  A callback function. Called after the COCO-SSD model has been loaded. All we
-  need to do here is set isModelReady to true, which we'll see the effect of in
-  draw().
+  A callback function. Called after the MobileNet model has been loaded and its
+  features have been extracted. Here we load the new classification model based
+  on the features of MobileNet. We'll simply call the model "classifier", and
+  pass modelReady() as a callback for when the model has loaded.
+*******************************************************************************/
+
+function featuresExtracted() {
+
+}
+
+/******************************************************************************
+                                  modelReady()
+
+  A callback function. Called after the classifier model has been loaded. Here
+  we set isModelReady to true, print some instructional text ("Add training
+  data, then click train!"), then reveal the button DIV so users can interact
+  with the app.
 *******************************************************************************/
 
 function modelReady() {
-  isModelReady = true;
+
 }
 
 /******************************************************************************
-                              drawLabel(object)
+                                  whileTraining()
 
-  Draw a colored rectangle around an object. Then, draw text somewhere near the
-  object indicating the label of the object, along with its associated
-  confidence value.
+  A callback function. Called continuously as the new classifier model is being
+  trained. If the loss (error) value is null, then set isTrainingComplete to
+  true. Otherwise, log the loss value to the console. You should notice the
+  loss value going down as the model becomes better at its classification task
+  over time.
 *******************************************************************************/
 
-function drawLabel(object) {
-  // Draw a rectangular outline around the object
-  stroke(0, 255, 0);
-  noFill();
-  rect(object.x, object.y, object.width, object.height);
-  // Draw the label and its confidence value near the object
-  noStroke();
-  fill(255, 0, 0);
-  textSize(20);
-  let label = object.label;
-  let confidence = floor(object.confidence * 100);
-  text(label + ": " + confidence + "%", object.x + 10, object.y + 20);
+function whileTraining(loss) {
+
 }
 
 /******************************************************************************
                           gotResults(error, results)
 
-  This function is a callback for detect(). In other words, after cocossd
-  has detected and classified the image, it should call this function next.
+  This function is a callback for classify(). In other words, after our new
+  classifier model has classified the image, it should call this function next.
 
   parameters
   - error: If there was an error while running classify(), it should be brought
@@ -151,11 +157,5 @@ function drawLabel(object) {
 *******************************************************************************/
 
 function gotResults(error, results) {
-  if(error) {
-    console.error(error);
-  } else {
-    //console.log(results);
-    textP.html("I detect these objects!");
-    detections = results;
-  }
+
 }

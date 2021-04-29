@@ -30,7 +30,7 @@ let textP;
   The machine learning model we will use in this program.
 
   video
-  An video loaded into the program for object detection.
+  A video loaded into the program for object detection.
 
   detections
   An array that contains all of the objects the model has detected in the
