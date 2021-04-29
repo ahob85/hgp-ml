@@ -18,7 +18,10 @@
   data).
 *******************************************************************************/
 
-//let canvasDiv;
+let canvasDiv;
+let canvas;
+let textDiv;
+let textP;
 
 /*******************************************************************************
                             Global ML Variables
@@ -27,10 +30,21 @@
   The machine learning model we will use in this program.
 
   video
-  An image loaded into the program for object detection.
+  An video loaded into the program for object detection.
+
+  detections
+  An array that contains all of the objects the model has detected in the
+  current video frame on the canvas.
+
+  isModelReady
+  Initialized to false in setup(). Set to true when the model has been loaded
+  successfully.
 *******************************************************************************/
 
-//let detector;
+let detector;
+let video;
+let detections;
+let isModelReady;
 
 /******************************************************************************
                                   setup()
@@ -57,28 +71,28 @@ function draw() {
 }
 
 /******************************************************************************
-                                imageLoaded()
+                               videoReady()
 
-  A callback that is called after an image has been loaded by loadImage().
-  Draws the image onto the canvas like this:
+  A callback function. Called after the video has been loaded. First, we'll
+  hide the video (remember, there will be two videos if we don't do this) using:
 
-  image(img, 0, 0, width, height);
+  video.display("display", "none");
 
-  Also loads the model (passing in modelReady() as a callback):
+  Then, now that we have video, we load the COCO-SSD model with:
 
   detector = ml5.objectDetector("cocossd", modelReady);
 *******************************************************************************/
 
-function imageLoaded() {
+function videoReady() {
 
 }
 
 /******************************************************************************
                                modelReady()
 
-  A callback function. Called after the COCO-SSD model has been loaded. It
-  should simply detect objects in the image (or if using webcam video, the
-  current frame) on the canvas.
+  A callback function. Called after the COCO-SSD model has been loaded. All we
+  need to do here is set isModelReady to true, which we'll see the effect of in
+  draw().
 *******************************************************************************/
 
 function modelReady() {

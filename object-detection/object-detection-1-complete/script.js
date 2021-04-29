@@ -30,7 +30,7 @@ let textP;
   The machine learning model we will use in this program.
 
   img
-  An image loaded into the program for classification.
+  An image loaded into the program for object detection.
 *******************************************************************************/
 
 let detector;
