@@ -26,7 +26,7 @@ let buttonDiv;
 let happyButton;
 let sadButton;
 let trainButton;
-let saveButton;
+
 
 /*******************************************************************************
                             Global ML Variables
@@ -201,7 +201,7 @@ function whileTraining(loss) {
     console.log(loss);
   } else {
     // new code below
-    
+
     isTrainingComplete = true;
   }
 }
