@@ -26,6 +26,7 @@ let buttonDiv;
 let happyButton;
 let sadButton;
 let trainButton;
+let saveButton;
 
 /*******************************************************************************
                             Global ML Variables
@@ -127,10 +128,13 @@ function buildButtons() {
   trainButton = createButton("Train Model");
   trainButton.parent(buttonDiv);
   trainButton.mousePressed(function () {
-    buttonDiv.style("display", "none");
+    // new code blow
+
     textP.html("New model training, please wait...");
     classifier.train(whileTraining);
   });
+  // new code below
+
   buttonDiv.style("display", "none");
 }
 
@@ -187,14 +191,17 @@ function modelReady() {
   A callback function. Called continuously as the new classifier model is being
   trained. If there is a loss (error) value reported by the model's training
   process, log it to the console. Otherwise, the model is done training, so set
-  isTrainingComplete to true. You should notice the loss value going down as
-  the model becomes better at its classification task over time.
+  isTrainingComplete to true, and show the save button. You should notice the
+  loss value going down as the model becomes better at its classification task
+  over time.
 *******************************************************************************/
 
 function whileTraining(loss) {
   if(loss) {
     console.log(loss);
   } else {
+    // new code below
+    
     isTrainingComplete = true;
   }
 }

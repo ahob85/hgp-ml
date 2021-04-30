@@ -132,10 +132,10 @@ function modelReady() {
                                   whileTraining()
 
   A callback function. Called continuously as the new classifier model is being
-  trained. If the loss (error) value is null, then hide the button div and set
-  isTrainingComplete to true. Otherwise, log the loss value to the console. You
-  should notice the loss value going down as the model becomes better at its
-  classification task over time.
+  trained. If there is a loss (error) value reported by the model's training
+  process, log it to the console. Otherwise, the model is done training, so set
+  isTrainingComplete to true. You should notice the loss value going down as
+  the model becomes better at its classification task over time.
 *******************************************************************************/
 
 function whileTraining(loss) {
