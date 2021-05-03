@@ -74,10 +74,10 @@ function setup() {
   canvas.parent(canvasDiv);
   textDiv = createDiv();
   textP = createP();
-  addedExamples = 0;
   textP.html("Model loading, please wait...");
   textP.parent(textDiv);
   buildInput();
+  addedExamples = 0;
   isModelReady = false;
   isTrainingComplete = false;
   video = createCapture(VIDEO, videoReady);
@@ -111,20 +111,19 @@ function draw() {
   training data, and a function called whileTraining() is passed as a callback
   to run while this is happening.
 *******************************************************************************/
+
 function buildInput() {
   sliderDiv = createDiv();
-  sadSpan = createSpan();
-  sadSpan.html("Sad");
+  sadSpan = createSpan("Sad");
   sadSpan.parent(sliderDiv);
   slider = createSlider(0, 1, 0.5, 0.01);
   slider.parent(sliderDiv);
-  happySpan = createSpan();
-  happySpan.html("Happy");
+  happySpan = createSpan("Happy");
   happySpan.parent(sliderDiv);
   buttonDiv = createDiv();
   addExampleButton = createButton("Add Example");
   addExampleButton.parent(buttonDiv);
-  addExampleButton.mousePressed(function() {
+  addExampleButton.mousePressed(function () {
     addedExamples++;
     textP.html("Added Examples: " + addedExamples);
     predictor.addImage(canvas, slider.value());
@@ -225,6 +224,7 @@ function gotResults(error, results) {
   if(error) {
     console.error(error);
   } else {
+    //console.log(results);
     let value = floor(results.value * 100);
     textP.html("Happiness: " + value + "%");
   }
