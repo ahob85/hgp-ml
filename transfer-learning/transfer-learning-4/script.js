@@ -21,17 +21,7 @@
   data).
 *******************************************************************************/
 
-let canvasDiv;
-let canvas;
-let textDiv;
-let textP;
-let sliderDiv;
-let slider;
-let sadSpan;
-let happySpan;
-let buttonDiv;
-let addExampleButton;
-let trainButton;
+//let canvasDiv;
 
 /*******************************************************************************
                             Global ML Variables
@@ -53,12 +43,7 @@ let trainButton;
   The number of examples that have been added to the training data.
 *******************************************************************************/
 
-let features;
-let predictor;
-let video;
-let isModelReady;
-let isTrainingComplete;
-let addedExamples;
+//let features;
 
 /******************************************************************************
                                   setup()
@@ -69,18 +54,7 @@ let addedExamples;
 *******************************************************************************/
 
 function setup() {
-  canvasDiv = createDiv();
-  canvas = createCanvas(640, 480);
-  canvas.parent(canvasDiv);
-  textDiv = createDiv();
-  textP = createP();
-  addedExamples = 0;
-  textP.html("Model loading, please wait...");
-  textP.parent(textDiv);
-  buildInput();
-  isModelReady = false;
-  isTrainingComplete = false;
-  video = createCapture(VIDEO, videoReady);
+
 }
 
 /******************************************************************************
@@ -92,12 +66,7 @@ function setup() {
 *******************************************************************************/
 
 function draw() {
-  if(isModelReady) {
-    image(video, 0, 0);
-  }
-  if(isTrainingComplete) {
-    predictor.predict(canvas, gotResults);
-  }
+
 }
 
 /******************************************************************************
@@ -112,32 +81,7 @@ function draw() {
   to run while this is happening.
 *******************************************************************************/
 function buildInput() {
-  sliderDiv = createDiv();
-  sadSpan = createSpan();
-  sadSpan.html("Sad");
-  sadSpan.parent(sliderDiv);
-  slider = createSlider(0, 1, 0.5, 0.01);
-  slider.parent(sliderDiv);
-  happySpan = createSpan();
-  happySpan.html("Happy");
-  happySpan.parent(sliderDiv);
-  buttonDiv = createDiv();
-  addExampleButton = createButton("Add Example");
-  addExampleButton.parent(buttonDiv);
-  addExampleButton.mousePressed(function() {
-    addedExamples++;
-    textP.html("Added Examples: " + addedExamples);
-    predictor.addImage(canvas, slider.value());
-  });
-  trainButton = createButton("Train Model");
-  trainButton.parent(buttonDiv);
-  trainButton.mousePressed(function () {
-    buttonDiv.style("display", "none");
-    sliderDiv.style("display", "none");
-    predictor.train(whileTraining);
-  });
-  buttonDiv.style("display", "none");
-  sliderDiv.style("display", "none");
+
 }
 
 /******************************************************************************
@@ -155,8 +99,7 @@ function buildInput() {
 *******************************************************************************/
 
 function videoReady() {
-  video.style("display", "none");
-  features = ml5.featureExtractor("MobileNet", featuresExtracted);
+
 }
 
 /******************************************************************************
@@ -169,7 +112,7 @@ function videoReady() {
 *******************************************************************************/
 
 function featuresExtracted() {
-  predictor = features.regression(canvas, modelReady);
+
 }
 
 /******************************************************************************
@@ -182,10 +125,7 @@ function featuresExtracted() {
 *******************************************************************************/
 
 function modelReady() {
-  isModelReady = true;
-  textP.html("Add training data, then click train!");
-  sliderDiv.style("display", "block");
-  buttonDiv.style("display", "block");
+
 }
 
 /******************************************************************************
@@ -199,11 +139,7 @@ function modelReady() {
 *******************************************************************************/
 
 function whileTraining(loss) {
-  if(loss) {
-    console.log(loss);
-  } else {
-    isTrainingComplete = true;
-  }
+
 }
 
 /******************************************************************************
@@ -222,10 +158,5 @@ function whileTraining(loss) {
 *******************************************************************************/
 
 function gotResults(error, results) {
-  if(error) {
-    console.error(error);
-  } else {
-    let value = floor(results.value * 100);
-    textP.html("Happiness: " + value + "%");
-  }
+
 }
