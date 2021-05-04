@@ -32,8 +32,8 @@ let rightButton;
 /*******************************************************************************
                             Global ML Variables
 
-  features
-  The features of the MobileNet model.
+  featureExtractor
+  An object that can extract the features from the MobileNet model.
 
   imgFeatures
   The features of the image on the canvas.
@@ -52,7 +52,7 @@ let rightButton;
   The number of examples that have been added to the training data.
 *******************************************************************************/
 
-let features;
+let featureExtractor;
 let imgFeatures;
 let knnClassifier;
 let video;
@@ -98,7 +98,7 @@ function setup() {
 function draw() {
   if(isModelReady) {
     image(video, 0, 0);
-    imgFeatures = features.infer(canvas);
+    imgFeatures = featureExtractor.infer(canvas);
     if(knnClassifier.getNumLabels() > 0) {
       knnClassifier.classify(imgFeatures, gotResults);
     }
@@ -157,28 +157,28 @@ function buildButtons() {
 
   video.display("display", "none");
 
-  Then, now that we have video, we will immediately begin extracting  we extract the features from the MobileNet
-  model with:
+  Then, now that we have video, we will immediately begin extracting the
+  features from the MobileNet model with:
 
-  features = ml5.featureExtractor("MobileNet", featuresExtracted);
+  featureExtractor = ml5.featureExtractor("MobileNet", featureExtractorLoaded);
 *******************************************************************************/
 
 function videoReady() {
   video.style("display", "none");
-  features = ml5.featureExtractor("MobileNet", featuresExtracted);
+  featureExtractor = ml5.featureExtractor("MobileNet", featureExtractorLoaded);
 }
 
 /******************************************************************************
-                               featuresExtracted()
+                               featureExtractorLoaded()
 
   A callback function. Called after the MobileNet model has been loaded and its
-  features have been extracted. Here we load the new k-NN classification model.
-  We'll simply call the model "knnClassifier". Because there is nothing to load
-  here, we can skip our usual modelReady() function and write instructional
-  text and display the button div here.
+  feature extractor has been created. Here we load the new k-NN classification
+  model. We'll simply call the model "knnClassifier". Because there is nothing
+  else to load here, we can skip our usual modelReady() function and write
+  instructional text and display the button div here.
 *******************************************************************************/
 
-function featuresExtracted() {
+function featureExtractorLoaded() {
   isModelReady = true;
   knnClassifier = ml5.KNNClassifier();
   textP.html("Begin posing and adding data!");

@@ -91,7 +91,7 @@ function buildButtons() {
   Then, now that we have video, we will immediately begin extracting  we extract the features from the MobileNet
   model with:
 
-  features = ml5.featureExtractor("MobileNet", featuresExtracted);
+  features = ml5.featureExtractor("MobileNet", featureExtractorLoaded);
 *******************************************************************************/
 
 function videoReady() {
@@ -99,16 +99,16 @@ function videoReady() {
 }
 
 /******************************************************************************
-                               featuresExtracted()
+                               featureExtractorLoaded()
 
   A callback function. Called after the MobileNet model has been loaded and its
-  features have been extracted. Here we load the new k-NN classification model.
+  feature extractor has been created. Here we load the new k-NN classification model.
   We'll simply call the model "knnClassifier". Because there is nothing to load
   here, we can skip our usual modelReady() function and write instructional
   text and display the button div here.
 *******************************************************************************/
 
-function featuresExtracted() {
+function featureExtractorLoaded() {
 
 }
 

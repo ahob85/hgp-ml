@@ -145,24 +145,24 @@ function buildButtons() {
   Then, now that we have video, we extract the features from the MobileNet
   model with:
 
-  featureExtractor = ml5.featureExtractor("MobileNet", featuresExtracted);
+  featureExtractor = ml5.featureExtractor("MobileNet", featureExtractorLoaded);
 *******************************************************************************/
 
 function videoReady() {
   video.style("display", "none");
-  featureExtractor = ml5.featureExtractor("MobileNet", featuresExtracted);
+  featureExtractor = ml5.featureExtractor("MobileNet", featureExtractorLoaded);
 }
 
 /******************************************************************************
-                               featuresExtracted()
+                               featureExtractorLoaded()
 
   A callback function. Called after the MobileNet model has been loaded and its
-  features have been extracted. Here we load the new classification model based
-  on the features of MobileNet. We'll simply call the model "classifier", and
-  pass modelReady() as a callback for when the model has loaded.
+  feature extractor has been created. Here we load the new classification model
+  based on the features of MobileNet. We'll simply call the model "classifier",
+  and pass modelReady() as a callback for when the model has loaded.
 *******************************************************************************/
 
-function featuresExtracted() {
+function featureExtractorLoaded() {
   classifier = featureExtractor.classification(canvas, modelReady);
 }
 
