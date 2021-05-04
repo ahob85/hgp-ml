@@ -31,8 +31,8 @@ let saveButton;
 /*******************************************************************************
                             Global ML Variables
 
-  features
-  The features of the MobileNet model.
+  featureExtractor
+  An object that can extract the features from the MobileNet model.
 
   classifier
   The new model we have created from MobileNet's features.
@@ -48,7 +48,7 @@ let saveButton;
   successfully, or when training is complete.
 *******************************************************************************/
 
-let features;
+let featureExtractor;
 let classifier;
 let video;
 let happies;
@@ -154,12 +154,12 @@ function buildButtons() {
   Then, now that we have video, we extract the features from the MobileNet
   model with:
 
-  features = ml5.featureExtractor("MobileNet", featuresExtracted);
+  featureExtractor = ml5.featureExtractor("MobileNet", featuresExtracted);
 *******************************************************************************/
 
 function videoReady() {
   video.style("display", "none");
-  features = ml5.featureExtractor("MobileNet", featuresExtracted);
+  featureExtractor = ml5.featureExtractor("MobileNet", featuresExtracted);
 }
 
 /******************************************************************************
@@ -172,7 +172,7 @@ function videoReady() {
 *******************************************************************************/
 
 function featuresExtracted() {
-  classifier = features.classification(canvas, modelReady);
+  classifier = featureExtractor.classification(canvas, modelReady);
 }
 
 /******************************************************************************

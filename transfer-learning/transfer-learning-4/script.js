@@ -26,8 +26,8 @@
 /*******************************************************************************
                             Global ML Variables
 
-  features
-  The features of the MobileNet model.
+  featureExtractor
+  An object that can extract the features from the MobileNet model.
 
   predictor
   The new model we have created from MobileNet's features.
@@ -43,7 +43,7 @@
   The number of examples that have been added to the training data.
 *******************************************************************************/
 
-//let features;
+//let featureExtractor;
 
 /******************************************************************************
                                   setup()
@@ -96,7 +96,7 @@ function buildInput() {
   Then, now that we have video, we extract the features from the MobileNet
   model with:
 
-  features = ml5.featureExtractor("MobileNet", featuresExtracted);
+  featureExtractor = ml5.featureExtractor("MobileNet", featuresExtracted);
 *******************************************************************************/
 
 function videoReady() {
