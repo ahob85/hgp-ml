@@ -18,10 +18,7 @@
   data).
 *******************************************************************************/
 
-let canvasDiv;
-let canvas;
-let textDiv;
-let textP;
+//let canvasDiv;
 
 /*******************************************************************************
                             Global ML Variables
@@ -29,24 +26,24 @@ let textP;
   features
   The features of the MobileNet model.
 
-  classifier
+  imgFeatures
+  The features of the image on the canvas.
+
+  knnClassifier
   The new model we have created from MobileNet's features.
 
   video
   A video loaded into the program for object detection.
 
-  happies, sads
-  The number of times the user has clicked the "happy" and "sad" buttons.
-
-  isModelReady, isTrainingComplete
+  isModelReady
   Initialized to false in setup(). Set to true when the model has been loaded
-  successfully, or when training is complete.
+  successfully.
+
+  ups, downs, lefts, rights
+  The number of examples that have been added to the training data.
 *******************************************************************************/
 
-let features;
-let classifier;
-let video;
-let isCustomModelReady;
+//let features;
 
 /******************************************************************************
                                   setup()
@@ -57,14 +54,7 @@ let isCustomModelReady;
 *******************************************************************************/
 
 function setup() {
-  canvasDiv = createDiv();
-  canvas = createCanvas(640, 480);
-  canvas.parent(canvasDiv);
-  textDiv = createDiv();
-  textP = createP("Model loading, please wait...");
-  textP.parent(textDiv);
-  isCustomModelReady = false;
-  video = createCapture(VIDEO, videoReady);
+
 }
 
 /******************************************************************************
@@ -76,10 +66,18 @@ function setup() {
 *******************************************************************************/
 
 function draw() {
-  if(isCustomModelReady) {
-    image(video, 0, 0);
-    classifier.classify(canvas, gotResults);
-  }
+
+}
+
+/******************************************************************************
+                               buildButtons()
+
+  Builds all of the app's buttons: up, down, left, and right. When any of them
+  are clicked, add the features of the current image to the k-NN classifier.
+*******************************************************************************/
+
+function buildButtons() {
+
 }
 
 /******************************************************************************
@@ -90,43 +88,28 @@ function draw() {
 
   video.display("display", "none");
 
-  Then, now that we have video, we extract the features from the MobileNet
+  Then, now that we have video, we will immediately begin extracting  we extract the features from the MobileNet
   model with:
 
   features = ml5.featureExtractor("MobileNet", featuresExtracted);
 *******************************************************************************/
 
 function videoReady() {
-  video.style("display", "none");
-  features = ml5.featureExtractor("MobileNet", featuresExtracted);
+
 }
 
 /******************************************************************************
                                featuresExtracted()
 
   A callback function. Called after the MobileNet model has been loaded and its
-  features have been extracted. Here we load the new classification model based
-  on the features of MobileNet. We'll simply call the model "classifier", and
-  pass modelReady() as a callback for when the model has loaded.
+  features have been extracted. Here we load the new k-NN classification model.
+  We'll simply call the model "knnClassifier". Because there is nothing to load
+  here, we can skip our usual modelReady() function and write instructional
+  text and display the button div here.
 *******************************************************************************/
 
 function featuresExtracted() {
-  classifier = features.classification(canvas, modelReady);
-}
 
-/******************************************************************************
-                                  modelReady()
-
-  A callback function. Called after the classifier model has been loaded. Here
-  we set isModelReady to true, print some instructional text ("Add training
-  data, then click train!"), then reveal the button div so users can interact
-  with the app.
-*******************************************************************************/
-
-function modelReady() {
-  classifier.load("model/model.json", function() {
-    isCustomModelReady = true;
-  });
 }
 
 /******************************************************************************
@@ -144,11 +127,5 @@ function modelReady() {
 *******************************************************************************/
 
 function gotResults(error, results) {
-  if(error) {
-    console.error(error);
-  } else {
-    let label = results[0].label;
-    let confidence = round(results[0].confidence, 2);
-    textP.html("Label: " + label + " - Confidence " + confidence);
-  }
+
 }

@@ -150,7 +150,7 @@ function buildInput() {
   Then, now that we have video, we extract the features from the MobileNet
   model with:
 
-  features = ml5.featureExtractor("MobileNet", modelReady);
+  features = ml5.featureExtractor("MobileNet", featuresExtracted);
 *******************************************************************************/
 
 function videoReady() {

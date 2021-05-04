@@ -80,6 +80,7 @@ function draw() {
   training data, and a function called whileTraining() is passed as a callback
   to run while this is happening.
 *******************************************************************************/
+
 function buildInput() {
 
 }
@@ -95,7 +96,7 @@ function buildInput() {
   Then, now that we have video, we extract the features from the MobileNet
   model with:
 
-  features = ml5.featureExtractor("MobileNet", modelReady);
+  features = ml5.featureExtractor("MobileNet", featuresExtracted);
 *******************************************************************************/
 
 function videoReady() {
