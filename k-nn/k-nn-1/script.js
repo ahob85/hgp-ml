@@ -23,8 +23,8 @@
 /*******************************************************************************
                             Global ML Variables
 
-  features
-  The features of the MobileNet model.
+  featureExtractor
+  An object that can extract the features from the MobileNet model.
 
   imgFeatures
   The features of the image on the canvas.
@@ -43,7 +43,7 @@
   The number of examples that have been added to the training data.
 *******************************************************************************/
 
-//let features;
+//let featureExtractor;
 
 /******************************************************************************
                                   setup()
@@ -88,8 +88,8 @@ function buildButtons() {
 
   video.display("display", "none");
 
-  Then, now that we have video, we will immediately begin extracting  we extract the features from the MobileNet
-  model with:
+  Then, now that we have video, we will immediately begin extracting  we
+  extract the features from the MobileNet model with:
 
   features = ml5.featureExtractor("MobileNet", featureExtractorLoaded);
 *******************************************************************************/
@@ -102,10 +102,10 @@ function videoReady() {
                                featureExtractorLoaded()
 
   A callback function. Called after the MobileNet model has been loaded and its
-  feature extractor has been created. Here we load the new k-NN classification model.
-  We'll simply call the model "knnClassifier". Because there is nothing to load
-  here, we can skip our usual modelReady() function and write instructional
-  text and display the button div here.
+  feature extractor has been created. Here we load the new k-NN classification
+  model. We'll simply call the model "knnClassifier". Because there is nothing
+  else to load here, we can skip our usual modelReady() function and write
+  instructional text and display the button div here.
 *******************************************************************************/
 
 function featureExtractorLoaded() {

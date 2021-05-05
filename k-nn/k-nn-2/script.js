@@ -28,8 +28,6 @@ let upButton;
 let downButton;
 let leftButton;
 let rightButton;
-let buttonDiv2;
-let saveButton;
 
 /*******************************************************************************
                             Global ML Variables
@@ -152,14 +150,10 @@ function buildButtons() {
   });
   buttonDiv2 = createDiv();
   // new code below
-  saveButton = createButton("Save Model");
-  saveButton.parent(buttonDiv2);
-  saveButton.mousePressed(function () {
-    knnClassifier.save();
-  });
+
   buttonDiv.style("display", "none");
   // new code below
-  buttonDiv2.style("display", "none");
+
 }
 
 /******************************************************************************
