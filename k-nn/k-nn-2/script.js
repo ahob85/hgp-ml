@@ -48,7 +48,7 @@ let rightButton;
   Initialized to false in setup(). Set to true when the model has been loaded
   successfully.
 
-  ups, downs, lefts, rights
+  ups, downs, lefts, rights, centers
   The number of examples that have been added to the training data.
 *******************************************************************************/
 
@@ -61,6 +61,7 @@ let ups;
 let downs;
 let lefts;
 let rights;
+let centers;
 
 /******************************************************************************
                                   setup()
@@ -116,12 +117,13 @@ function draw() {
 
 function buildButtons() {
   buttonDiv = createDiv();
+  buttonDiv = createDiv();
   upButton = createButton("Up");
   upButton.parent(buttonDiv);
   upButton.mousePressed(function () {
     ups++;
     textP2.html("Ups: " + ups + " - Downs: " + downs + " - Lefts: " + lefts +
-    " - Rights: " + rights);
+    " - Rights: " + rights + " - Centers: " + centers);
     knnClassifier.addExample(imgFeatures, "Up");
   });
   downButton = createButton("Down");
@@ -129,7 +131,7 @@ function buildButtons() {
   downButton.mousePressed(function () {
     downs++;
     textP2.html("Ups: " + ups + " - Downs: " + downs + " - Lefts: " + lefts +
-    " - Rights: " + rights);
+    " - Rights: " + rights + " - Centers: " + centers);
     knnClassifier.addExample(imgFeatures, "Down");
   });
   leftButton = createButton("Left");
@@ -137,7 +139,7 @@ function buildButtons() {
   leftButton.mousePressed(function () {
     lefts++;
     textP2.html("Ups: " + ups + " - Downs: " + downs + " - Lefts: " + lefts +
-    " - Rights: " + rights);
+    " - Rights: " + rights + " - Centers: " + centers);
     knnClassifier.addExample(imgFeatures, "Left");
   });
   rightButton = createButton("Right");
@@ -145,10 +147,17 @@ function buildButtons() {
   rightButton.mousePressed(function () {
     rights++;
     textP2.html("Ups: " + ups + " - Downs: " + downs + " - Lefts: " + lefts +
-    " - Rights: " + rights);
+    " - Rights: " + rights + " - Centers: " + centers);
     knnClassifier.addExample(imgFeatures, "Right");
   });
-  buttonDiv2 = createDiv();
+  centerButton = createButton("Center");
+  centerButton.parent(buttonDiv);
+  centerButton.mousePressed(function () {
+    centers++;
+    textP2.html("Ups: " + ups + " - Downs: " + downs + " - Lefts: " + lefts +
+    " - Rights: " + rights + " - Centers: " + centers);
+    knnClassifier.addExample(imgFeatures, "Center");
+  });
   // new code below
 
   buttonDiv.style("display", "none");

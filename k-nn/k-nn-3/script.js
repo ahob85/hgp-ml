@@ -53,6 +53,9 @@ let saveButton;
 
   ups, downs, lefts, rights, centers
   The number of examples that have been added to the training data.
+
+  ballX, ballY, ballSpeed
+  The ball's (x, y) coordinates, along with its and speed.
 *******************************************************************************/
 
 let featureExtractor;
@@ -89,7 +92,8 @@ function setup() {
   lefts = 0;
   rights = 0;
   centers = 0;
-  video = createCapture(VIDEO, videoReady);
+  // new code below
+
 }
 
 /******************************************************************************
@@ -102,14 +106,37 @@ function setup() {
 
 function draw() {
   if(isModelReady) {
-    translate(width, 0);
-    scale(-1, 1);
-    image(video, 0, 0);
-    imgFeatures = featureExtractor.infer(canvas);
+    imgFeatures = featureExtractor.infer(video);
     if(knnClassifier.getNumLabels() > 0) {
       knnClassifier.classify(imgFeatures, gotResults);
+      background(255);
+      drawBall();
     }
   }
+}
+
+/******************************************************************************
+                                  draw()
+
+  Draw a ball to the canvas, and animate it depending on the class of the
+  current image ("frame") in the video element.
+*******************************************************************************/
+
+function drawBall() {
+  fill(0);
+  ellipse(ballX, ballY, 36);
+  let labelString = textP.html().toLowerCase();
+  if(labelString.includes("up")) {
+    ballY -= ballSpeed;
+  } else if(labelString.includes("down")) {
+    ballY += ballSpeed;
+  } else if(labelString.includes("left")) {
+    ballX -= ballSpeed;
+  } else if(labelString.includes("right")) {
+    ballX += ballSpeed;
+  }
+  ballX = constrain(ballX, 16, width - 16);
+  ballY = constrain(ballY, 16, height - 16);
 }
 
 /******************************************************************************
@@ -161,7 +188,6 @@ function buildButtons() {
     " - Rights: " + rights + " - Centers: " + centers);
     knnClassifier.addExample(imgFeatures, "Center");
   });
-  // new code below
   buttonDiv2 = createDiv();
   saveButton = createButton("Save Model");
   saveButton.parent(buttonDiv2);
@@ -169,7 +195,6 @@ function buildButtons() {
     knnClassifier.save();
   });
   buttonDiv.style("display", "none");
-  // new code below
   buttonDiv2.style("display", "none");
 }
 
@@ -197,17 +222,16 @@ function videoReady() {
 
   A callback function. Called after the MobileNet model has been loaded and its
   feature extractor has been created. Here we load the new k-NN classification
-  model. We'll simply call the model "knnClassifier". Because there is nothing
-  else to load here, we can skip our usual modelReady() function and write
-  instructional text and display the button div here.
+  model. We'll simply call the model "knnClassifier". After that, we'll load
+  the saved k-NN model using:
+
+  knnClassifier.load("myKNN.json", callback);
+
+  The callback function above will be called after the saved model is loaded.
 *******************************************************************************/
 
 function featureExtractorLoaded() {
-  isModelReady = true;
-  knnClassifier = ml5.KNNClassifier();
-  textP.html("Begin posing and adding data!");
-  buttonDiv.style("display", "block");
-  buttonDiv2.style("display", "block");
+
 }
 
 /******************************************************************************
@@ -225,9 +249,17 @@ function featureExtractorLoaded() {
 *******************************************************************************/
 
 function gotResults(error, results) {
-  if(error) {
-    console.error(error);
-  } else {
-    textP.html("Label: " + results.label);
+
+}
+
+// Don't touch this, it "fixes" a bug in ml5.js
+function getLabel(results) {
+  const entries = Object.entries(results.confidencesByLabel);
+  let greatestConfidence = entries[0];
+  for(let i = 0; i < entries.length; i++) {
+    if(entries[i][1] > greatestConfidence[1]) {
+      greatestConfidence = entries[i];
+    }
   }
+  return greatestConfidence[0];
 }
