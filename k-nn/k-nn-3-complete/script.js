@@ -95,11 +95,11 @@ function setup() {
   lefts = 0;
   rights = 0;
   centers = 0;
+  // new code below
   ballX = width / 2;
   ballY = height / 2;
   ballSpeed = 5;
   video = createCapture(VIDEO, videoReady);
-  video.style("transform", "scale(-1, 1)");
   video.parent(canvasDiv);
 }
 
@@ -116,6 +116,7 @@ function draw() {
     imgFeatures = featureExtractor.infer(video);
     if(knnClassifier.getNumLabels() > 0) {
       knnClassifier.classify(imgFeatures, gotResults);
+      // new code below
       background(255);
       drawBall();
     }
@@ -125,7 +126,7 @@ function draw() {
 /******************************************************************************
                                   draw()
 
-  Draw a ball to the canvas, and animate it depending on the class of the
+  Draw a ball to the canvas, and animate it depending on the label of the
   current image ("frame") in the video element.
 *******************************************************************************/
 
@@ -221,6 +222,8 @@ function buildButtons() {
 
 function videoReady() {
   //video.style("display", "none");
+  // new code below
+  video.style("transform", "scale(-1, 1)");
   featureExtractor = ml5.featureExtractor("MobileNet", featureExtractorLoaded);
 }
 
@@ -239,7 +242,7 @@ function videoReady() {
 
 function featureExtractorLoaded() {
   knnClassifier = ml5.KNNClassifier();
-  knnClassifier.load("myKNN.json", function () {
+  knnClassifier.load("model/myKNN.json", function () {
     isModelReady = true;
     textP.html("Begin posing and adding data!");
     buttonDiv.style("display", "block");

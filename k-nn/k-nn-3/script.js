@@ -106,11 +106,11 @@ function setup() {
 
 function draw() {
   if(isModelReady) {
-    imgFeatures = featureExtractor.infer(video);
+    imgFeatures = featureExtractor.infer(canvas);
     if(knnClassifier.getNumLabels() > 0) {
       knnClassifier.classify(imgFeatures, gotResults);
-      background(255);
-      drawBall();
+      // new code below
+
     }
   }
 }
@@ -118,7 +118,7 @@ function draw() {
 /******************************************************************************
                                   draw()
 
-  Draw a ball to the canvas, and animate it depending on the class of the
+  Draw a ball to the canvas, and animate it depending on the label of the
   current image ("frame") in the video element.
 *******************************************************************************/
 
@@ -214,6 +214,8 @@ function buildButtons() {
 
 function videoReady() {
   video.style("display", "none");
+  // new code below
+
   featureExtractor = ml5.featureExtractor("MobileNet", featureExtractorLoaded);
 }
 
@@ -249,7 +251,12 @@ function featureExtractorLoaded() {
 *******************************************************************************/
 
 function gotResults(error, results) {
-
+  if(error) {
+    console.error(error);
+  } else {
+    let labelString = getLabel(results);
+    textP.html("Label: " + labelString);
+  }
 }
 
 // Don't touch this, it "fixes" a bug in ml5.js
