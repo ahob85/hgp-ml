@@ -85,12 +85,12 @@ function draw() {
 }
 
 /******************************************************************************
-                                foodLocation()
+                                createFood()
 
-  Places the food at a random location on the canvas, based on w
+  Creates food and places it at a random location on the (scaled) canvas.
 *******************************************************************************/
 
-function foodLocation() {
+function createFood() {
 
 }
 

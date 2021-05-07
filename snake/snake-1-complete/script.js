@@ -97,7 +97,7 @@ function draw() {
   background(220);
   // Check if snake is eating the food
   if(snake.eat(food)) {
-    foodLocation();
+    createFood();
     score++;
     textP.html("Score: " + score);
   };
@@ -118,12 +118,12 @@ function draw() {
 }
 
 /******************************************************************************
-                                foodLocation()
+                                createFood()
 
-  Places the food at a random location on the canvas, based on w
+  Creates food and places it at a random location on the (scaled) canvas.
 *******************************************************************************/
 
-function foodLocation() {
+function createFood() {
   let x = floor(random(scaledWidth));
   let y = floor(random(scaledHeight));
   food = createVector(x, y);
@@ -137,14 +137,14 @@ function foodLocation() {
 *******************************************************************************/
 
 function keyPressed() {
-  if(keyCode === LEFT_ARROW && snake.xDir === 0) {
-    snake.setDir(-1, 0);
-  } else if(keyCode === RIGHT_ARROW && snake.xDir === 0) {
-    snake.setDir(1, 0);
-  } else if(keyCode === UP_ARROW && snake.yDir === 0) {
-    snake.setDir(0, -1);
-  } else if(keyCode === DOWN_ARROW && snake.yDir === 0) {
-    snake.setDir(0, 1);
+  if(keyCode === UP_ARROW && snake.yDirection === 0) {
+    snake.setDirection(0, -1);
+  } else if(keyCode === DOWN_ARROW && snake.yDirection === 0) {
+    snake.setDirection(0, 1);
+  } else if(keyCode === LEFT_ARROW && snake.xDirection === 0) {
+    snake.setDirection(-1, 0);
+  } else if(keyCode === RIGHT_ARROW && snake.xDirection === 0) {
+    snake.setDirection(1, 0);
   }
 }
 
@@ -161,7 +161,7 @@ function keyPressed() {
 
 function resetGame() {
   snake = new Snake();
-  foodLocation();
+  createFood();
   score = 0;
   textP.html("Score: " + score);
   loop();

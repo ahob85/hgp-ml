@@ -3,7 +3,7 @@ class Snake {
   /*****************************************************************************
                                   constructor()
 
-    This function is called when we write "new Snake()", as in:
+    This method is called when we write "new Snake()", as in:
 
     let snake = new Snake();
 
@@ -19,13 +19,14 @@ class Snake {
                                     update()
 
     The draw() function from p5.js runs in a continuous loop. To update the
-    snake's body, we can call this function each time through the draw() loop.
+    snake's body, we can call this method each time through the draw() loop.
 
     The snake "moves" in a peculiar pattern, where its tail (the first element
     of the array) is removed, its head (last element) is copied, the copied
     head moves, then is placed back on the end of the array as a new head.
 
-    If that makes absolutely no sense to you, see the website for visuals. ^_^
+    If that makes absolutely no sense to you, see the project guide for
+    visuals. ^_^
   *****************************************************************************/
 
   update() {
@@ -51,7 +52,7 @@ class Snake {
   /*****************************************************************************
                                     grow()
 
-    This function simply makes the snake add a new head to its body, which
+    This method simply makes the snake add a new head to its body, which
     makes it longer. For our purposes, the head is the last element of the
     array, so
 
@@ -66,24 +67,24 @@ class Snake {
   }
 
   /*****************************************************************************
-                                    eat(pos)
+                                    eat(food)
 
-    This function detects if the position of the snake's head is overlapping
+    This method detects if the position of the snake's head is overlapping
     with the position of the food. If the positions overlap, the snake should
-    grow and this function should return true. Otherwise, this function should
+    grow and this method should return true. Otherwise, this method should
     return false.
   *****************************************************************************/
 
-  eat(pos) {
+  eat(food) {
 
   }
 
   /*****************************************************************************
                                     show()
 
-    This function shows every part of the snake on the canvas.
+    This method shows every part of the snake on the canvas.
 
-    To do so, create a for-loop and draw a rectangle for each snake part, at
+    To do so, create a for loop and draw a rectangle for each snake part, at
     its (x, y) coordinate, with a width and height of 1 (this will be scaled by
     our resolution multiplier). The code for drawing the rectangle will look
     like this:
@@ -96,13 +97,13 @@ class Snake {
   }
 
   /*****************************************************************************
-                                    setDir()
+                                setDirection(x, y)
 
-    A tiny function that sets the snake's x and y directions to the arguments
-    passed into the function.
+    A tiny method that sets the snake's x and y directions to the arguments
+    passed into the method.
   *****************************************************************************/
 
-  setDir(x, y) {
+  setDirection(x, y) {
 
   }
 

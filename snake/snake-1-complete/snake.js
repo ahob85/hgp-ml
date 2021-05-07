@@ -3,7 +3,7 @@ class Snake {
   /*****************************************************************************
                                   constructor()
 
-    This function is called when we write "new Snake()", as in:
+    This method is called when we write "new Snake()", as in:
 
     let snake = new Snake();
 
@@ -15,32 +15,30 @@ class Snake {
     this.body = [];
     this.body[0] = createVector(floor(scaledWidth / 2),  floor(scaledHeight /
       2));
-    this.xDir = 0;
-    this.yDir = 0;
+    this.xDirection = 0;
+    this.yDirection = 0;
   }
 
   /*****************************************************************************
                                     update()
 
     The draw() function from p5.js runs in a continuous loop. To update the
-    snake's body, we can call this function each time through the draw() loop.
+    snake's body, we can call this method each time through the draw() loop.
 
     The snake "moves" in a peculiar pattern, where its tail (the first element
     of the array) is removed, its head (last element) is copied, the copied
     head moves, then is placed back on the end of the array as a new head.
 
-    If that makes absolutely no sense to you, see the website for visuals. ^_^
+    If that makes absolutely no sense to you, see the project guide for
+    visuals. ^_^
   *****************************************************************************/
 
   update() {
     let head = this.body[this.body.length - 1].copy();
     this.body.shift();
-    head.x += this.xDir;
-    head.y += this.yDir;
+    head.x += this.xDirection;
+    head.y += this.yDirection;
     this.body.push(head);
-    // How the snake moves with just one segment
-    //this.body[0].x += this.xDir;
-    //this.body[0].y += this.yDir;
   }
 
   /*****************************************************************************
@@ -56,14 +54,13 @@ class Snake {
   *****************************************************************************/
 
   endGame() {
-    let x = this.body[this.body.length-1].x;
-    let y = this.body[this.body.length-1].y;
-    if(x > scaledWidth - 1 || x < 0 || y > scaledHeight - 1 || y < 0) {
+    let head = this.body[this.body.length - 1];
+    if(head.x > scaledWidth - 1 || head.x < 0 || head.y > scaledHeight - 1 || head.y < 0) {
       return true;
     }
     for(let i = 0; i < this.body.length - 1; i++) {
       let part = this.body[i];
-      if(part.x == x && part.y == y) {
+      if(part.x === head.x && part.y === head.y) {
         return true;
       }
     }
@@ -73,7 +70,7 @@ class Snake {
   /*****************************************************************************
                                     grow()
 
-    This function simply makes the snake add a new head to its body, which
+    This method simply makes the snake add a new head to its body, which
     makes it longer. For our purposes, the head is the last element of the
     array, so
 
@@ -89,18 +86,17 @@ class Snake {
   }
 
   /*****************************************************************************
-                                    eat(pos)
+                                    eat(food)
 
-    This function detects if the position of the snake's head is overlapping
+    This method detects if the position of the snake's head is overlapping
     with the position of the food. If the positions overlap, the snake should
-    grow and this function should return true. Otherwise, this function should
+    grow and this method should return true. Otherwise, this method should
     return false.
   *****************************************************************************/
 
-  eat(pos) {
-    let x = this.body[this.body.length - 1].x;
-    let y = this.body[this.body.length - 1].y;
-    if(x === pos.x && y === pos.y) {
+  eat(food) {
+    let head = this.body[this.body.length - 1];
+    if(head.x === food.x && head.y === food.y) {
       this.grow();
       return true;
     } else {
@@ -111,9 +107,9 @@ class Snake {
   /*****************************************************************************
                                     show()
 
-    This function shows every part of the snake on the canvas.
+    This method shows every part of the snake on the canvas.
 
-    To do so, create a for-loop and draw a rectangle for each snake part, at
+    To do so, create a for loop and draw a rectangle for each snake part, at
     its (x, y) coordinate, with a width and height of 1 (this will be scaled by
     our resolution multiplier). The code for drawing the rectangle will look
     like this:
@@ -130,15 +126,15 @@ class Snake {
   }
 
   /*****************************************************************************
-                                    setDir()
+                                setDirection(x, y)
 
-    A tiny function that sets the snake's x and y directions to the arguments
-    passed into the function.
+    A tiny method that sets the snake's x and y directions to the arguments
+    passed into the method.
   *****************************************************************************/
 
-  setDir(x, y) {
-    this.xDir = x;
-    this.yDir = y;
+  setDirection(x, y) {
+    this.xDirection = x;
+    this.yDirection = y;
   }
 
 }
