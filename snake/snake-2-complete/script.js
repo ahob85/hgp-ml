@@ -129,6 +129,7 @@ function draw() {
       // Scale the canvas according to resolution, then refresh the background
       scale(resolution);
       background(220);
+      // Draw game objects
       drawGameObjects();
     }
   }
@@ -139,7 +140,7 @@ function draw() {
 
   A function to make draw() a little less bulky. This simply draws all the \
   objects in the game (namely, the snake and food). It's also where you call
-  checkMotion(), immediately before drawing the snake.
+  checkPosition(), immediately before drawing the snake.
 *******************************************************************************/
 
 function drawGameObjects() {
@@ -149,8 +150,8 @@ function drawGameObjects() {
     score++;
     textP.html("Score: " + score);
   };
-  // Draw the snake, but first check the user's motion
-  checkMotion();
+  // Draw the snake, but first check the user's position
+  checkPosition();
   snake.update();
   snake.show();
   // Draw the food
@@ -179,20 +180,20 @@ function createFood() {
 }
 
 /******************************************************************************
-                                checkMotion()
+                                checkPosition()
 
-  Change the snake's direction based on the user's motion.
+  Change the snake's direction based on the user's position.
 *******************************************************************************/
 
-function checkMotion() {
-  let motionLabel = textP2.html().toLowerCase();
-  if(motionLabel.includes("up") && snake.yDirection === 0) {
+function checkPosition() {
+  let positionLabel = textP2.html().toLowerCase();
+  if(positionLabel.includes("up") && snake.yDirection === 0) {
     snake.setDirection(0, -1);
-  } else if(motionLabel.includes("down") && snake.yDirection === 0) {
+  } else if(positionLabel.includes("down") && snake.yDirection === 0) {
     snake.setDirection(0, 1);
-  } else if(motionLabel.includes("left") && snake.xDirection === 0) {
+  } else if(positionLabel.includes("left") && snake.xDirection === 0) {
     snake.setDirection(-1, 0);
-  } else if(motionLabel.includes("right") && snake.xDirection === 0) {
+  } else if(positionLabel.includes("right") && snake.xDirection === 0) {
     snake.setDirection(1, 0);
   }
 }
@@ -276,7 +277,7 @@ function gotResults(error, results) {
     console.error(error);
   } else {
     let labelString = getLabel(results);
-    textP2.html("Motion Label: " + labelString);
+    textP2.html("Your Position: " + labelString);
   }
 }
 
