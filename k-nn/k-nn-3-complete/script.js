@@ -210,9 +210,9 @@ function buildButtons() {
                                videoReady()
 
   A callback function. Called after the video has been loaded. First, we'll
-  hide the video (remember, there will be two videos if we don't do this) using:
+  flip the video using:
 
-  video.display("display", "none");
+  video.style("transform", "scale(-1, 1)");
 
   Then, now that we have video, we will immediately begin extracting the
   features from the MobileNet model with:
