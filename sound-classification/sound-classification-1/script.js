@@ -22,6 +22,7 @@ let canvasDiv;
 let canvas;
 let textDiv;
 let textP;
+let textP2;
 
 /*******************************************************************************
                             Global ML Variables

@@ -44,6 +44,7 @@ let soundClassifier;
 function setup() {
   canvasDiv = createDiv();
   canvas = createCanvas(640, 480);
+  canvas.parent(canvasDiv);
   textDiv = createDiv();
   textP = createP("Model loading, please wait...");
   textP.parent(textDiv);
@@ -88,8 +89,8 @@ function draw() {
 *******************************************************************************/
 
 function modelReady() {
-  textP.html("Model loaded. Say any of the words below!");
-  textP2.html("<b>Valid Words</b>: digits zero through nine, up, down, left, right, go, stop, yes, no");
+  textP.html("Model loaded. Say any of the commands below!");
+  textP2.html("<b>Commands</b>: digits zero through nine, up, down, left, right, go, stop, yes, no");
   soundClassifier.classify(gotResults);
 }
 
