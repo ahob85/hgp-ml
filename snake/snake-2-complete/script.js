@@ -101,6 +101,7 @@ function setup() {
   resetButton = createButton("Reset Game");
   resetButton.mousePressed(resetGame);
   resetButton.parent(buttonDiv);
+  buttonDiv.style("display", "none");
   // Set the resolution to 20. Play with this later if you want.
   resolution = 20;
   // Scaled width and height are width / resolution, height / resolution

@@ -56,27 +56,15 @@ let score;
 /*******************************************************************************
                             Global ML Variables
 
-  featureExtractor
-  An object that can extract the features from the MobileNet model.
-
-  imgFeatures
-  The features of the image on the canvas.
-
-  knnClassifier
-  The new model we have created from MobileNet's features.
-
-  video
-  A video loaded into the program for object detection.
+  soundClassifier
+  The machine learning model we will use in this program.
 
   isModelReady
   Initialized to false in setup(). Set to true when the model has been loaded
   successfully.
 *******************************************************************************/
 
-let featureExtractor;
-let imgFeatures;
-let knnClassifier;
-let video;
+let soundClassifier;
 let isModelReady;
 
 /******************************************************************************
@@ -101,6 +89,7 @@ function setup() {
   resetButton = createButton("Reset Game");
   resetButton.mousePressed(resetGame);
   resetButton.parent(buttonDiv);
+  buttonDiv.style("display", "none");
   // Set the resolution to 20. Play with this later if you want.
   resolution = 20;
   // Scaled width and height are width / resolution, height / resolution
@@ -108,9 +97,12 @@ function setup() {
   scaledHeight = floor(height / resolution);
   // Set the game's framerate to 5 (or whatever you prefer)
   frameRate(5);
-  // Load the video
-  video = createCapture(VIDEO, videoReady);
-  video.parent(canvasDiv);
+  // Load the sound classifier
+  const options = {
+    probabilityThreshold: 0.95
+  };
+  soundClassifier = ml5.soundClassifier("https://teachablemachine.withgoogle.com/models/iOqm1PmtH/model.json", options,
+  modelReady);
 }
 
 /******************************************************************************
@@ -123,15 +115,11 @@ function setup() {
 
 function draw() {
   if(isModelReady) {
-    imgFeatures = featureExtractor.infer(video);
-    if(knnClassifier.getNumLabels() > 0) {
-      knnClassifier.classify(imgFeatures, gotResults);
-      // Scale the canvas according to resolution, then refresh the background
-      scale(resolution);
-      background(220);
-      // Draw game objects
-      drawGameObjects();
-    }
+    // Scale the canvas according to resolution, then refresh the background
+    scale(resolution);
+    background(220);
+    // Draw game objects
+    drawGameObjects();
   }
 }
 
@@ -186,14 +174,14 @@ function createFood() {
 *******************************************************************************/
 
 function checkPosition() {
-  let positionLabel = textP2.html().toLowerCase();
-  if(positionLabel.includes("up") && snake.yDirection === 0) {
+  let commandLabel = textP2.html().toLowerCase();
+  if(commandLabel.includes("up") && snake.yDirection === 0) {
     snake.setDirection(0, -1);
-  } else if(positionLabel.includes("down") && snake.yDirection === 0) {
+  } else if(commandLabel.includes("down") && snake.yDirection === 0) {
     snake.setDirection(0, 1);
-  } else if(positionLabel.includes("left") && snake.xDirection === 0) {
+  } else if(commandLabel.includes("left") && snake.xDirection === 0) {
     snake.setDirection(-1, 0);
-  } else if(positionLabel.includes("right") && snake.xDirection === 0) {
+  } else if(commandLabel.includes("right") && snake.xDirection === 0) {
     snake.setDirection(1, 0);
   }
 }
@@ -219,43 +207,17 @@ function resetGame() {
 }
 
 /******************************************************************************
-                               videoReady()
+                               modelReady()
 
-  A callback function. Called after the video has been loaded. First, we'll
-  flip the video using:
-
-  video.style("transform", "scale(-1, 1)");
-
-  Then, now that we have video, we will immediately begin extracting the
-  features from the MobileNet model with:
-
-  featureExtractor = ml5.featureExtractor("MobileNet", featureExtractorLoaded);
+  A callback function. Called after the sound classifier model has been loaded.
+  It should simply classify the image (or if using webcam video, the current
+  frame) on the canvas.
 *******************************************************************************/
 
-function videoReady() {
-  video.style("transform", "scale(-1, 1)");
-  featureExtractor = ml5.featureExtractor("MobileNet", featureExtractorLoaded);
-}
-
-/******************************************************************************
-                               featureExtractorLoaded()
-
-  A callback function. Called after the MobileNet model has been loaded and its
-  feature extractor has been created. Here we load the new k-NN classification
-  model. We'll simply call the model "knnClassifier". After that, we'll load
-  the saved k-NN model using:
-
-  knnClassifier.load("myKNN.json", callback);
-
-  The callback function above will be called after the saved model is loaded.
-*******************************************************************************/
-
-function featureExtractorLoaded() {
-  knnClassifier = ml5.KNNClassifier();
-  knnClassifier.load("model/myKNN.json", function () {
-    isModelReady = true;
-    resetGame();
-  });
+function modelReady() {
+  soundClassifier.classify(gotResults);
+  isModelReady = true;
+  resetGame();
 }
 
 /******************************************************************************
@@ -276,19 +238,7 @@ function gotResults(error, results) {
   if(error) {
     console.error(error);
   } else {
-    let labelString = getLabel(results);
-    textP2.html("Your Position: " + labelString);
+    let label = results[0].label;
+    textP2.html("Command: " + label);
   }
-}
-
-// Don't touch this, it "fixes" a bug in ml5.js
-function getLabel(results) {
-  const entries = Object.entries(results.confidencesByLabel);
-  let greatestConfidence = entries[0];
-  for(let i = 0; i < entries.length; i++) {
-    if(entries[i][1] > greatestConfidence[1]) {
-      greatestConfidence = entries[i];
-    }
-  }
-  return greatestConfidence[0];
 }
