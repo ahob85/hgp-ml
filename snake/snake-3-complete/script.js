@@ -98,7 +98,7 @@ function setup() {
   // Set the game's framerate to 5 (or whatever you prefer)
   frameRate(5);
   // Load the sound classifier
-  const options = {
+  let options = {
     probabilityThreshold: 0.95
   };
   soundClassifier = ml5.soundClassifier("https://teachablemachine.withgoogle.com/models/iOqm1PmtH/model.json", options,
@@ -128,7 +128,7 @@ function draw() {
 
   A function to make draw() a little less bulky. This simply draws all the \
   objects in the game (namely, the snake and food). It's also where you call
-  checkPosition(), immediately before drawing the snake.
+  checkCommand(), immediately before drawing the snake.
 *******************************************************************************/
 
 function drawGameObjects() {
@@ -138,8 +138,8 @@ function drawGameObjects() {
     score++;
     textP.html("Score: " + score);
   };
-  // Draw the snake, but first check the user's position
-  checkPosition();
+  // Draw the snake, but first check the user's command
+  checkCommand();
   snake.update();
   snake.show();
   // Draw the food
@@ -168,12 +168,12 @@ function createFood() {
 }
 
 /******************************************************************************
-                                checkPosition()
+                                checkCommand()
 
-  Change the snake's direction based on the user's position.
+  Change the snake's direction based on the user's command.
 *******************************************************************************/
 
-function checkPosition() {
+function checkCommand() {
   let commandLabel = textP2.html().toLowerCase();
   if(commandLabel.includes("up") && snake.yDirection === 0) {
     snake.setDirection(0, -1);
