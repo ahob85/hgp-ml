@@ -35,7 +35,7 @@ let trainButton;
   The current state of the machine learning process.
 
   env, wave
-  Variables used to generate audible notes.
+  Variables used to generate musical notes.
 
   notes
   An object containing notes and their frequencies.

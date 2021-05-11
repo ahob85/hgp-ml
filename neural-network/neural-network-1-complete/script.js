@@ -37,7 +37,7 @@ let notesRadio;
   The current state of the machine learning process.
 
   env, wave
-  Variables used to generate audible notes.
+  Variables used to generate musical notes.
 
   notes
   An object containing notes and their frequencies.
@@ -225,8 +225,6 @@ function canvasClicked() {
     };
     model.addData(inputs, target);
     drawNote(targetLabel, "black", "white");
-    wave.freq(notes[targetLabel]);
-    env.play();
   } else if(state === "prediction") {
     model.classify(inputs, gotResults);
   }
