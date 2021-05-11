@@ -120,11 +120,7 @@ function buildButtons() {
   trainButton.mousePressed(trainModel);
   trainButton.parent(buttonDiv);
   // new code below
-  saveDataButton = createButton("Save Data");
-  saveDataButton.mousePressed(function () {
-    model.saveData();
-  });
-  saveDataButton.parent(buttonDiv);
+  
 }
 
 /******************************************************************************
