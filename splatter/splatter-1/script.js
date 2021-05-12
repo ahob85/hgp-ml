@@ -18,14 +18,7 @@
   data).
 *******************************************************************************/
 
-let canvasDiv;
-let canvas;
-let buttonDiv;
-let clearButton;
-let sliderDiv;
-let slider;
-let minSpan;
-let maxSpan;
+// let canvasDiv;
 
 /******************************************************************************
                                   setup()
@@ -36,24 +29,7 @@ let maxSpan;
 *******************************************************************************/
 
 function setup() {
-  canvasDiv = createDiv();
-  canvas = createCanvas(640, 480);
-  background(65, 60, 88);
-  canvas.mousePressed(drawSplatter);
-  canvas.parent(canvasDiv);
-  sliderDiv = createDiv();
-  minSpan = createSpan("Min");
-  minSpan.parent(sliderDiv);
-  slider = createSlider(0, 100, 50, 1);
-  slider.parent(sliderDiv);
-  maxSpan = createSpan("Max");
-  maxSpan.parent(sliderDiv);
-  buttonDiv = createDiv();
-  clearButton = createButton("Clear Canvas");
-  clearButton.mousePressed(function() {
-    background(65, 60, 88);
-  });
-  clearButton.parent(buttonDiv);
+
 }
 
 /******************************************************************************
@@ -75,8 +51,7 @@ function draw() {
 *******************************************************************************/
 
 function drawEllipse() {
- fill("#ff0000");
- ellipse(mouseX, mouseY, 100);
+
 }
 
 
@@ -97,12 +72,5 @@ function drawEllipse() {
 *******************************************************************************/
 
 function drawSplatter(){
-  fill(random(100, 255), random(100, 255), random(100, 255));
-  noStroke();
-  let randomNum = random(10, 15);
-  let spread = slider.value();
-  for(let i = 0; i < randomNum; i++) {
-   	let randomSize = random(5, 15);
-   	ellipse(random(mouseX - spread, mouseX + spread), random(mouseY - spread, mouseY + spread), randomSize);
-  }
+
 }
