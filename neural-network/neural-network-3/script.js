@@ -83,7 +83,7 @@ function setup() {
   };
   model = ml5.neuralNetwork(options);
   // new code below
-  model.loadData("model/musical-notes-data.json");
+
   createMusicSystem();
 }
 
