@@ -239,8 +239,6 @@ function drawNote(note, noteColor, ellipseColor) {
   noStroke();
   textAlign(CENTER, CENTER);
   text(note, mouseX, mouseY);
-  wave.freq(notes[note]);
-  env.play();
 }
 
 /******************************************************************************
@@ -262,6 +260,8 @@ function canvasClicked() {
     };
     model.addData(inputs, target);
     drawNote(targetLabel, "black", "white");
+    wave.freq(notes[targetLabel]);
+    env.play();
   } else if(state === "prediction") {
     model.classify(inputs, gotResults);
   }
@@ -287,5 +287,7 @@ function gotResults(error, results) {
   } else {
     let label = results[0].label;
     drawNote(label, "white", "blue");
+    wave.freq(notes[label]);
+    env.play();
   }
 }

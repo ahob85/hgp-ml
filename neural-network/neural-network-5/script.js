@@ -24,7 +24,6 @@ let textDiv;
 let textP;
 let buttonDiv;
 let trainButton;
-let saveDataButton;
 let radioDiv;
 let notesRadio;
 
@@ -73,12 +72,15 @@ function setup() {
     D: 293.6648,
     E: 329.6276,
     F: 349.2282,
-    G: 391.9954
-  };
+    G: 391.9954,
+    A: 440.0000,
+    B: 493.8833
+  }
+  // new code below
   let options = {
     inputs: ["x", "y"],
-    outputs: ["label"],
-    task: "classification",
+    outputs: [""],
+    task: "",
     debug: true
   };
   model = ml5.neuralNetwork(options);
@@ -112,18 +114,14 @@ function buildButtons() {
   notesRadio.option("E");
   notesRadio.option("F");
   notesRadio.option("G");
+  notesRadio.option("A");
+  notesRadio.option("B");
   notesRadio.selected("C");
   notesRadio.parent(radioDiv);
   buttonDiv = createDiv();
   trainButton = createButton("Train Model");
   trainButton.mousePressed(trainModel);
   trainButton.parent(buttonDiv);
-  // new code below
-  saveDataButton = createButton("Save Data");
-  saveDataButton.mousePressed(function () {
-    model.saveData();
-  });
-  saveDataButton.parent(buttonDiv);
 }
 
 /******************************************************************************
@@ -223,16 +221,10 @@ function canvasClicked() {
     y: mouseY
   };
   if(state === "collection") {
-    let targetLabel = notesRadio.value();
-    let target = {
-      label: targetLabel
-    };
-    model.addData(inputs, target);
-    drawNote(targetLabel, "black", "white");
-    wave.freq(notes[targetLabel]);
-    env.play();
+    // new code below
+
   } else if(state === "prediction") {
-    model.classify(inputs, gotResults);
+
   }
 }
 
@@ -254,9 +246,7 @@ function gotResults(error, results) {
   if(error) {
     console.error(error);
   } else {
-    let label = results[0].label;
-    drawNote(label, "white", "blue");
-    wave.freq(notes[label]);
-    env.play();
+    // new code below
+
   }
 }
