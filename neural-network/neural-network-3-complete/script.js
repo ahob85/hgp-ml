@@ -25,6 +25,7 @@ let textP;
 let buttonDiv;
 let trainButton;
 let saveDataButton;
+let saveModelButton;
 let radioDiv;
 let notesRadio;
 
@@ -115,7 +116,6 @@ function buildButtons() {
   notesRadio.option("F");
   notesRadio.option("G");
   notesRadio.selected("C");
-  notesRadio.style("display", "inline");
   notesRadio.parent(radioDiv);
   buttonDiv = createDiv();
   trainButton = createButton("Train Model");
@@ -126,6 +126,13 @@ function buildButtons() {
     model.saveData();
   });
   saveDataButton.parent(buttonDiv);
+  // new code below
+  saveModelButton = createButton("Save Model");
+  saveModelButton.mousePressed(function () {
+    model.save();
+  });
+  saveModelButton.parent(buttonDiv);
+  saveModelButton.style("display", "none");
 }
 
 /******************************************************************************
@@ -168,7 +175,9 @@ function trainModel() {
     epochs: 100
   };
   model.train(options, whileTraining, finishedTraining);
-  buttonDiv.style("display", "none");
+  // new code below
+  trainButton.style("display", "none");
+  saveDataButton.style("display", "none");
   radioDiv.style("display", "none");
 }
 
@@ -193,6 +202,8 @@ function whileTraining(epoch, loss) {
 function finishedTraining() {
   state = "prediction";
   textP.html("Step 3: Prediction");
+  // new code below
+  saveModelButton.style("display", "inline");
 }
 
 /******************************************************************************

@@ -113,14 +113,13 @@ function buildButtons() {
   notesRadio.option("F");
   notesRadio.option("G");
   notesRadio.selected("C");
-  notesRadio.style("display", "inline");
   notesRadio.parent(radioDiv);
   buttonDiv = createDiv();
   trainButton = createButton("Train Model");
   trainButton.mousePressed(trainModel);
   trainButton.parent(buttonDiv);
   // new code below
-  
+
 }
 
 /******************************************************************************
