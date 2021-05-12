@@ -4,7 +4,7 @@
                           Global UI Variables
 
   canvasDiv, textDiv, buttonDiv
-  In the project's HTML, the DIVs that will contain various elements that may
+  In the project's HTML, the divs that will contain various elements that may
   be created in setup(). Useful for styling (e.g., keeping them all centered).
 
   canvas
@@ -64,9 +64,24 @@ function draw() {
   loadImage(). Simply draws the image onto the canvas like this:
 
   image(img, 0, 0, width, height);
+
+  Also loads the model (passing in modelReady() as a callback):
+
+  mobilenet = ml5.imageClassifier("MobileNet", modelReady);
 *******************************************************************************/
 
 function imageLoaded() {
+
+}
+
+/******************************************************************************
+                               modelReady()
+
+  A callback function. Called after the MobileNet model has been loaded. It
+  should simply classify the image (or if using webcam video, the current frame) on the canvas.
+*******************************************************************************/
+
+function modelReady() {
 
 }
 

@@ -4,7 +4,7 @@
                           Global UI Variables
 
   canvasDiv, textDiv, buttonDiv
-  In the project's HTML, the DIVs that will contain various elements that may
+  In the project's HTML, the divs that will contain various elements that may
   be created in setup(). Useful for styling (e.g., keeping them all centered).
 
   canvas
@@ -78,7 +78,7 @@ function resetCanvas() {
                                modelReady()
 
   A callback function. Called after the DoodleNet model has been loaded. It
-  should make button DIV appear using buttonDiv.style("display, "block"), and
+  should make button div appear using buttonDiv.style("display, "block"), and
   set the UI text to instructional text, e.g., "Draw your image, then click
   submit!".
 *******************************************************************************/

@@ -1,97 +1,281 @@
-// Interface elements
+// Author:
+
+/*******************************************************************************
+                          Global UI Variables
+
+  canvasDiv, textDiv, buttonDiv, buttonDiv2
+  In the project's HTML, the divs that will contain various elements that may
+  be created in setup(). Useful for styling (e.g., keeping them all centered).
+
+  canvas
+  The p5.js canvas. This is where all the magic happens!
+
+  textP
+  This is where you will print any kind of text (e.g., the label of an image).
+
+  buttons
+  If included, these are for user interaction (e.g., training a model, inputting
+  data).
+*******************************************************************************/
+
 let canvasDiv;
 let canvas;
 let textDiv;
-let label;
+let textP;
+let textP2;
+let buttonDiv;
+let upButton;
+let downButton;
+let leftButton;
+let rightButton;
+let centerButton;
+let buttonDiv2;
+let saveButton;
 
-let video;
+/*******************************************************************************
+                            Global ML Variables
+
+  featureExtractor
+  An object that can extract the features from the MobileNet model.
+
+  imgFeatures
+  The features of the image on the canvas.
+
+  knnClassifier
+  The new model we have created from MobileNet's features.
+
+  video
+  A video loaded into the program for object detection.
+
+  isModelReady
+  Initialized to false in setup(). Set to true when the model has been loaded
+  successfully.
+
+  ups, downs, lefts, rights, centers
+  The number of examples that have been added to the training data.
+
+  ballX, ballY, ballSpeed
+  The ball's (x, y) coordinates, along with its and speed.
+*******************************************************************************/
+
 let featureExtractor;
-let knn;
-let x, y;
-let speed = 5;
+let imgFeatures;
+let knnClassifier;
+let video;
+let isModelReady;
+let ups;
+let downs;
+let lefts;
+let rights;
+let centers;
+let ballX;
+let ballY;
+let ballSpeed;
+
+/******************************************************************************
+                                  setup()
+
+  This is a built-in p5.js function that is automatically called when the
+  program starts, just before draw(). This is used for initializing global
+  variables, building the UI, and loading images, video, data, and models.
+*******************************************************************************/
 
 function setup() {
   canvasDiv = createDiv();
   canvas = createCanvas(640, 480);
   canvas.parent(canvasDiv);
-  video = createCapture(VIDEO);
-  video.style("display", "none");
-  featureExtractor = ml5.featureExtractor("MobileNet", modelReady);
   textDiv = createDiv();
-  label = createP();
-  label.parent(textDiv);
-  label.html("Loading Model...");
-  x = width / 2;
-  y = height / 2;
+  textP = createP("Model loading, please wait...");
+  textP.parent(textDiv);
+  textP2 = createP("[Training data here.]");
+  textP2.parent(textDiv);
+  buildButtons();
+  ups = 0;
+  downs = 0;
+  lefts = 0;
+  rights = 0;
+  centers = 0;
+  // new code below
+  ballX = width / 2;
+  ballY = height / 2;
+  ballSpeed = 5;
+  video = createCapture(VIDEO, videoReady);
+  video.parent(canvasDiv);
 }
+
+/******************************************************************************
+                                  draw()
+
+  This is a built-in p5.js function that is automatically called in a repeated
+  loop, just after setup(). This is used for handling animations, or running
+  anything over and over again throughout a program.
+*******************************************************************************/
 
 function draw() {
-  //image(video, 0, 0);
-  background(255);
-  fill(0);
-  ellipse(x, y, 36);
-  let labelString = label.html();
-  if(labelString.includes("up")) {
-    y -= speed;
-  } else if(labelString.includes("down")) {
-    y += speed;
-  } else if(labelString.includes("left")) {
-    x -= speed;
-  } else if(labelString.includes("right")) {
-    x += speed;
-  }
-}
-
-function myClassify() {
-  const features = featureExtractor.infer(video);
-  knn.classify(features, function (error, result) {
-    if(error) {
-      console.error(error);
-    } else {
-      let labelString = getLabel(result);
-      label.html("Label: "+ labelString);
-      myClassify();
+  if(isModelReady) {
+    imgFeatures = featureExtractor.infer(video);
+    if(knnClassifier.getNumLabels() > 0) {
+      knnClassifier.classify(imgFeatures, gotResults);
+      // new code below
+      background(255);
+      drawBall();
     }
-  });
-}
-
-function keyPressed() {
-  const features = featureExtractor.infer(video);
-  // want to see the features? have a look!
-  // console.log(features.dataSync());
-  if(key == "ArrowLeft") {
-    knn.addExample(features, "left");
-    console.log("you pressed left");
-  } else if(key == "ArrowRight"){
-    knn.addExample(features, "right");
-    console.log("you pressed right");
-  } else if(key == "ArrowUp") {
-    knn.addExample(features, "up");
-    console.log("you pressed up");
-  } else if(key == "ArrowDown") {
-    knn.addExample(features, "down");
-    console.log("you pressed down");
-  } else if(key == " ") {
-    knn.addExample(features, "stay");
-    console.log("you pressed space");
-  } else if(key == "s") {
-    knn.save();
-    console.log("model saved!");
   }
 }
 
-function modelReady() {
-  console.log("MobileNet Ready!");
-  knn = ml5.KNNClassifier();
-  knn.load("myKNN.json", function() {
-    console.log("k-NN model ready!");
-    myClassify();
+/******************************************************************************
+                                  draw()
+
+  Draw a ball to the canvas, and animate it depending on the label of the
+  current image ("frame") in the video element.
+*******************************************************************************/
+
+function drawBall() {
+  fill(0);
+  ellipse(ballX, ballY, 36);
+  let labelString = textP.html().toLowerCase();
+  if(labelString.includes("up")) {
+    ballY -= ballSpeed;
+  } else if(labelString.includes("down")) {
+    ballY += ballSpeed;
+  } else if(labelString.includes("left")) {
+    ballX -= ballSpeed;
+  } else if(labelString.includes("right")) {
+    ballX += ballSpeed;
+  }
+  ballX = constrain(ballX, 16, width - 16);
+  ballY = constrain(ballY, 16, height - 16);
+}
+
+/******************************************************************************
+                               buildButtons()
+
+  Builds all of the app's buttons: up, down, left, and right. When any of them
+  are clicked, add the features of the current image to the k-NN classifier.
+*******************************************************************************/
+
+function buildButtons() {
+  buttonDiv = createDiv();
+  upButton = createButton("Up");
+  upButton.parent(buttonDiv);
+  upButton.mousePressed(function () {
+    ups++;
+    textP2.html("Ups: " + ups + " - Downs: " + downs + " - Lefts: " + lefts +
+    " - Rights: " + rights + " - Centers: " + centers);
+    knnClassifier.addExample(imgFeatures, "Up");
   });
+  downButton = createButton("Down");
+  downButton.parent(buttonDiv);
+  downButton.mousePressed(function () {
+    downs++;
+    textP2.html("Ups: " + ups + " - Downs: " + downs + " - Lefts: " + lefts +
+    " - Rights: " + rights + " - Centers: " + centers);
+    knnClassifier.addExample(imgFeatures, "Down");
+  });
+  leftButton = createButton("Left");
+  leftButton.parent(buttonDiv);
+  leftButton.mousePressed(function () {
+    lefts++;
+    textP2.html("Ups: " + ups + " - Downs: " + downs + " - Lefts: " + lefts +
+    " - Rights: " + rights + " - Centers: " + centers);
+    knnClassifier.addExample(imgFeatures, "Left");
+  });
+  rightButton = createButton("Right");
+  rightButton.parent(buttonDiv);
+  rightButton.mousePressed(function () {
+    rights++;
+    textP2.html("Ups: " + ups + " - Downs: " + downs + " - Lefts: " + lefts +
+    " - Rights: " + rights + " - Centers: " + centers);
+    knnClassifier.addExample(imgFeatures, "Right");
+  });
+  centerButton = createButton("Center");
+  centerButton.parent(buttonDiv);
+  centerButton.mousePressed(function () {
+    centers++;
+    textP2.html("Ups: " + ups + " - Downs: " + downs + " - Lefts: " + lefts +
+    " - Rights: " + rights + " - Centers: " + centers);
+    knnClassifier.addExample(imgFeatures, "Center");
+  });
+  buttonDiv2 = createDiv();
+  saveButton = createButton("Save Model");
+  saveButton.parent(buttonDiv2);
+  saveButton.mousePressed(function () {
+    knnClassifier.save();
+  });
+  buttonDiv.style("display", "none");
+  buttonDiv2.style("display", "none");
+}
+
+/******************************************************************************
+                               videoReady()
+
+  A callback function. Called after the video has been loaded. First, we'll
+  flip the video using:
+
+  video.style("transform", "scale(-1, 1)");
+
+  Then, now that we have video, we will immediately begin extracting the
+  features from the MobileNet model with:
+
+  featureExtractor = ml5.featureExtractor("MobileNet", featureExtractorLoaded);
+*******************************************************************************/
+
+function videoReady() {
+  //video.style("display", "none");
+  // new code below
+  video.style("transform", "scale(-1, 1)");
+  featureExtractor = ml5.featureExtractor("MobileNet", featureExtractorLoaded);
+}
+
+/******************************************************************************
+                               featureExtractorLoaded()
+
+  A callback function. Called after the MobileNet model has been loaded and its
+  feature extractor has been created. Here we load the new k-NN classification
+  model. We'll simply call the model "knnClassifier". After that, we'll load
+  the saved k-NN model using:
+
+  knnClassifier.load("myKNN.json", callback);
+
+  The callback function above will be called after the saved model is loaded.
+*******************************************************************************/
+
+function featureExtractorLoaded() {
+  knnClassifier = ml5.KNNClassifier();
+  knnClassifier.load("model/myKNN.json", function () {
+    isModelReady = true;
+    textP.html("Begin posing and adding data!");
+    buttonDiv.style("display", "block");
+    buttonDiv2.style("display", "block");
+  });
+}
+
+/******************************************************************************
+                          gotResults(error, results)
+
+  This function is a callback for classify(). In other words, after our new
+  classifier model has classified the image, it should call this function next.
+
+  parameters
+  - error: If there was an error while running classify(), it should be brought
+  up here and the function shouldn't do anything else.
+  - results: The results of classify(). This will be an object we can use to
+  get some useful information, such as the predicted label of the image, as
+  well as how confident the model is about that assigned label.
+*******************************************************************************/
+
+function gotResults(error, results) {
+  if(error) {
+    console.error(error);
+  } else {
+    let labelString = getLabel(results);
+    textP.html("Label: " + labelString);
+  }
 }
 
 // Don't touch this, it "fixes" a bug in ml5.js
-function getLabel(result) {
-  const entries = Object.entries(result.confidencesByLabel);
+function getLabel(results) {
+  const entries = Object.entries(results.confidencesByLabel);
   let greatestConfidence = entries[0];
   for(let i = 0; i < entries.length; i++) {
     if(entries[i][1] > greatestConfidence[1]) {
